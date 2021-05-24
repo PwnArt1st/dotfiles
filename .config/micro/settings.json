@@ -1,0 +1,7 @@
+{
+    "autosu": true,
+    "backup": false,
+    "colorscheme": "gruvbox-tc",
+    "diffgutter": true,
+    "mkparents": true
+}

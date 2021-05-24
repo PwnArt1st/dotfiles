@@ -1,0 +1,11 @@
+{
+    "Alt-/": "lua:comment.comment",
+    "CtrlK": "CutLine",
+    "CtrlU": "Paste",
+    "CtrlUnderscore": "lua:comment.comment",
+    "CtrlW": "Find",
+    "CtrlX": "Quit",
+    "F5": "lua:wc.wordCount",
+    "\u001b[P": "Delete",
+    "\u001b[4h": "ToggleOverwriteMode"
+}
