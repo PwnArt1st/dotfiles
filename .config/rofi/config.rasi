@@ -1,0 +1,14 @@
+configuration {
+	theme: ".config/rofi/dmenu.rasi";
+	font: "Hack 10";
+	modi: "drun,run,ssh,calc";
+	show-icons: false;
+	sort: true;
+	drun-use-desktop-cache: true;
+	//matching: "fuzzy";
+	drun-reload-desktop-cache: true;
+	icon-theme: "Papirus-Dark";
+	disable-history: false;
+	display-drun: "";
+	drun-display-format: "{name}";
+}

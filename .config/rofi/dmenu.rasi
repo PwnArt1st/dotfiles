@@ -1,0 +1,50 @@
+/**
+ * rofi -dump-theme output.
+ * Rofi version: 1.6.0
+ **/
+* {
+    background-color: #222222;
+    font:             "Hack 10";
+    text-color:       #bbbbbb;
+}
+
+element {
+    padding:          2px 5px ;
+    //background-color: rgba ( 34, 34, 34, 100 % );
+    spacing:          5px ;
+}
+element selected {
+    background-color: #005577;
+    text-color:       #eeeeee;
+}
+element-text {
+    background-color: rgba ( 0, 0, 0, 0 % );
+    text-color:       inherit;
+}
+element-icon {
+    background-color: rgba ( 0, 0, 0, 0 % );
+    size:             1.2000ch ;
+    text-color:       inherit;
+}
+window {
+    width:    100.0000% ;
+    //padding:  2px ;
+    anchor:   northwest;
+    location: northwest;
+    children: [ horibox ];
+}
+horibox {
+    orientation: horizontal;
+    children:    [ prompt,entry,listview ];
+}
+listview {
+    padding: 0px 0px 0px 0px ;
+    layout:  horizontal;
+    spacing: 1px ;
+    lines:   100;
+}
+entry {
+    padding: 2px 2px ;
+	width: 20%;
+    expand:  false;
+}

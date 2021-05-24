@@ -1,0 +1,24 @@
+#! /bin/sh
+bspc monitor DisplayPort-1 -d I II III IV
+bspc monitor DisplayPort-2 -d V VI VII VIII
+
+bspc config border_width         2
+bspc config window_gap          12
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+bspc config focus_follows_pointer true
+
+bspc config external_rules_command "~/.config/bspwm/external_rules.sh"
+
+export BROWSER="firefox"
+export TERMINAL="alacritty"
+export MENU="j4-dmenu-desktop --usage-log='$HOME/.config/j4-dmenu-desktop.log' --no-generic --dmenu 'rofi -no-sort -dmenu -i -p \"\"'"
+export FILEMANAGER="thunar"
+export RESIZE="$HOME/.config/bspwm/resize.sh"
+export POWERMENU="$HOME/.config/bspwm/powermenu.sh"
+
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+$HOME/.config/bspwm/autostart.sh &

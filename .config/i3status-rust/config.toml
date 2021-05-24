@@ -1,0 +1,80 @@
+[theme]
+name = "gruvbox-dark"
+[theme.overrides]
+#separator = ""
+
+[icons]
+name = "awesome5"
+[icons.overrides]
+net_wired = ""
+net_wireless = ""
+
+[[block]]
+block = "focused_window"
+max_width = 30
+
+#[[block]]
+#block = "custom"
+#command = 'playerctl metadata --format "{{title}} - {{artist}}"'
+#interval = 5
+#hide_when_empty = true
+
+# [[block]]
+# block = "music"
+# marquee_interval = 5
+# marquee_speed = 0.2
+
+[[block]]
+block = "memory"
+display_type = "memory"
+format_mem = "{mem_used;G}"
+format_swap = "{swap_used;M} Swap"
+
+[[block]]
+block = "cpu"
+interval = 5
+
+[[block]]
+block = "temperature"
+interval = 5
+collapsed = false
+format = "{average}"
+chip = "coretemp-isa-0000"
+inputs = ["Package id 0"]
+
+[[block]]
+block = "temperature"
+interval = 5
+collapsed = false
+format = "{average}"
+chip = "amdgpu-pci-0300"
+inputs = ["edge"]
+
+#[[block]]
+#block = "networkmanager"
+
+[[block]]
+block = "net"
+device = "enp0s25"
+interval = 5
+# format = "{speed_up} {speed_down}"
+
+[[block]]
+block = "sound"
+format = "{volume} on {output_name}"
+show_volume_when_muted = true
+step_width = 2
+[block.mappings]
+"alsa_output.pci-0000_00_1b.0.analog-stereo" = "analog"
+"alsa_output.pci-0000_00_1b.0.iec958-stereo" = "digital"
+"bluez_sink.CC_98_8B_80_7B_CC.a2dp_sink" = "bluetooth"
+"bluez_output.CC_98_8B_80_7B_CC.a2dp-sink" = "bluetooth"
+
+[[block]]
+block = "watson"
+show_time = false
+
+[[block]]
+block = "time"
+interval = 1
+format = "%d/%m/%C %r"
