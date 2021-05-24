@@ -1,0 +1,431 @@
+#
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+
+#start apps
+exec_always .config/sway/import-gsettings.sh \
+    gtk-theme:gtk-theme-name \
+    icon-theme:gtk-icon-theme-name \
+    cursor-theme:gtk-cursor-theme-name
+    
+exec_always "hash dbus-update-activation-environment 2>/dev/null; \
+    dbus-update-activation-environment --all; \
+    dbus-update-activation-environment --systemd"
+
+    
+exec_always autotiling    
+#exec_always export QT_QPA_PLATFORMTHEME=gtk2 XDG_CURRENT_DESKTOP=Unity QT_QPA_PLATFORM=xcb blank_mode=0 MOZ_ENABLE_WAYLAND=1 MOZ_DBUS_REMOTE=1
+exec_always export XDG_CURRENT_DESKTOP=sway
+
+exec --no-startup-id polkit-dumb-agent
+exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=pkcs11,ssh
+exec --no-startup-id /usr/lib/geoclue-2.0/demos/agent
+exec --no-startup-id mako
+exec --no-startup-id ~/.config/sway/bg.sh
+exec --no-startup-id aria2c --enable-rpc --rpc-allow-origin-all --rpc-listen-all=true -l $HOME/.aria2c.log --quiet --dir=$HOME/Downloads/
+exec --no-startup-id wayvnc
+exec --no-startup-id thunar --daemon
+exec --no-startup-id steam-native -silent %U 
+exec --no-startup-id discord-canary --start-minimized
+exec --no-startup-id telegram-desktop -startintray
+exec --no-startup-id swayidle timeout 300 'swaylock'
+exec --no-startup-id gammastep-indicator
+exec --no-startup-id 'nm-applet --indicator'
+exec --no-startup-id 'foot --server'
+
+exec xrandr --output XWAYLAND0 --primary
+#exec xrandr --output XWAYLAND2 --primary
+
+#exec --no-startup-id "sh -c 'sleep 5; exec onedrive_tray'"
+
+
+input * xkb_numlock enable
+
+
+set $mod Mod4
+set $term footclient
+set $browser firefox
+#set $menu BEMENU_BACKEND=wayland j4-dmenu-desktop --dmenu="bemenu -i" --term $term --usage-log=$HOME/.config/j4-dmenu-desktop.log --no-generic
+set $menu j4-dmenu-desktop --usage-log="$HOME/.config/j4-dmenu-desktop.log" --no-generic --dmenu "rofi -no-sort -dmenu -i -p ''"
+
+
+default_border none
+gaps outer 10
+gaps inner 20
+font pango:Hack 10
+
+set $fg #abb2bf
+set $bg #282c34
+
+
+#output DP-3 pos 1600 0 res 1920x1080@144Hz
+#output DP-2 pos 0 0 res 1600x1200@60Hz
+#output HDMI-A-1 pos 1600 0 res 1920x1080
+output HDMI-A-1 disable
+
+input 2652:17667:HID_0a5c:4503_Mouse pointer_accel -1
+mouse_warping output
+############################################
+#
+#			Hotkeys
+#
+############################################
+
+
+# kill focused window
+bindsym $mod+Shift+q kill
+bindsym mod1+Shift+q kill
+
+# terminal
+bindsym $mod+Return exec --no-startup-id $term
+
+# dropdown terminal
+#bindsym Control+grave exec --no-startup-id tdrop -w 100% -h 40% -a -m $term
+bindsym Control+grave exec --no-startup-id i3-quickterm shell
+
+# browser
+bindsym $mod+Shift+Return exec --no-startup-id $browser
+
+# file manager
+bindsym $mod+mod1+Return exec --no-startup-id thunar
+
+# menu
+bindsym $mod+space exec --no-startup-id $menu
+bindsym mod1+space exec --no-startup-id $menu
+
+# calc
+bindsym $mod+equal exec --no-startup-id =
+
+# bitwarden
+#bindsym $mod+z exec --no-startup-id bwmenu -C
+bindsym $mod+z exec --no-startup-id  bitwarden-dmenu --dmenu-args='-i -p ' --dmenu-pswd-args='-password' --session-timeout 900 --clear-clipboard 60 --sync-vault-after 900
+
+# network
+bindsym $mod+n exec --no-startup-id networkmanager_dmenu
+
+# audio
+bindsym $mod+a exec --no-startup-id ~/.config/i3/dmenu_pavucontrol.sh
+
+# emoji
+bindsym $mod+j exec ~/.config/i3/emojipicker.sh
+
+
+bindsym Control+Space exec makoctl dismiss
+
+
+############################################
+#
+#			Nav
+#
+############################################
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+Tab focus mode_toggle
+
+# focus the parent container
+#bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# switch to workspace
+bindsym Control+Mod1+1 workspace 1
+bindsym Control+Mod1+2 workspace 2
+bindsym Control+Mod1+3 workspace 3
+bindsym Control+Mod1+4 workspace 4
+bindsym Control+Mod1+5 workspace 5
+bindsym Control+Mod1+6 workspace 6
+bindsym Control+Mod1+7 workspace 7
+bindsym Control+Mod1+8 workspace 8
+bindsym Control+Mod1+9 workspace 9
+bindsym Control+Mod1+0 workspace 10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+
+
+bindsym Control+Mod1+Left workspace prev
+bindsym Control+Mod1+Right workspace next
+
+
+############################################
+#
+#			Power options
+#
+############################################
+
+
+set $power_control "[l]ock log[o]ut [r]eboot [p]oweroff"
+mode  $power_control {
+    bindsym l exec swaylock; mode "default"
+    bindsym o exec swaymsg exit; mode "default"
+    bindsym r exec sudo reboot; mode "default"
+    bindsym p exec sudo poweroff; mode "default"
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+shift+e mode $power_control
+
+############################################
+#
+#			Resize
+#
+############################################
+
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+
+# Resizing windows by 10 in i3 using keyboard only
+bindsym $mod+Mod1+Right resize shrink width 10 px or 10 ppt
+bindsym $mod+Mod1+Up resize grow height 10 px or 10 ppt
+bindsym $mod+Mod1+Down resize shrink height 10 px or 10 ppt
+bindsym $mod+Mod1+Left resize grow width 10 px or 10 ppt
+
+
+
+############################################
+#
+#			Screenshots
+#
+############################################
+
+# Full screen
+bindsym mod1+Shift+3 exec --no-startup-id grim ~/Pictures/Screenshots/$(date +%s).png -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')
+bindsym Control+mod1+Shift+3 exec --no-startup-id -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') grim - | wl-copy --type image/png -t image/png
+bindsym Print exec --no-startup-id grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') - | wl-copy -t image/png 
+
+# Select
+bindsym mod1+Shift+4 exec --no-startup-id grim -g "$(slurp)"  ~/Pictures/Screenshots/$(date +%s).png
+bindsym Control+mod1+Shift+4 exec --no-startup-id grim -g "$(slurp)" - | wl-copy --type image/png
+
+
+############################################
+#
+#			Media
+#
+############################################
+
+
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle # mute sound
+
+# Media player controls
+bindsym XF86AudioPlay exec ~/.config/i3/playerctl.sh playpause
+bindsym XF86AudioNext exec ~/.config/i3/playerctl.sh next
+bindsym XF86AudioPrev exec ~/.config/i3/playerctl.sh prev
+bindsym XF86AudioStop exec ~/.config/i3/playerctl.sh stop
+
+
+############################################
+#
+#			Customisation
+#
+############################################
+
+
+# class                 border  backgr. text indicator child_border
+client.focused          $bg     $bg     $fg  $bg       $bg
+client.focused_inactive $bg     $bg     $fg  $bg       $bg
+client.unfocused        $bg     $bg     $fg  $bg       $bg
+client.urgent           $bg     $bg     $fg  $bg       $bg
+client.placeholder      $bg     $bg     $fg  $bg       $bg
+
+client.background       $bg
+
+
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+for_window [window_role="About"] floating enable
+for_window [class="^Pavucontrol$"] floating enable
+for_window [class="nmguish"] floating enable
+for_window [class="^Steam$" title="^Friends$"] floating enable
+for_window [class="^Steam$" title="Friends List"] floating enable
+for_window [class="^Steam$" title="Steam - News"] floating enable
+for_window [class="Wine"] fullscreen enable; inhibit_idle focus
+for_window [class="steam_app_49520"] fullscreen enable; floating enable; inhibit_idle focus
+for_window [class="steam_app_230410"] fullscreen enable; floating enable; inhibit_idle focus
+for_window [class="steam_app_253230"] fullscreen enable; floating enable; inhibit_idle focus
+for_window [title="Night in the Woods"] fullscreen enable; inhibit_idle focus
+for_window [title="Stardew Valley"] fullscreen enable; inhibit_idle focus
+for_window [title="Origin"] floating enable
+for_window [class="^Steam$" title=".* - Chat"] floating enable
+for_window [class="^Steam$" title="^Settings$"] floating enable
+for_window [class="^Steam$" title=".* - event started"] floating enable
+for_window [class="^Steam$" title=".* CD key"] floating enable
+for_window [class="^Steam$" title="^Steam - Self Updater$"] floating enable
+for_window [class="^Steam$" title="^Screenshot Uploader$"] floating enable
+for_window [class="^Steam$" title="^Steam Guard - Computer Authorization Required$"] floating enable
+for_window [title="^Steam Keyboard$"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+for_window [window_role="About"] floating enable
+for_window [class="^Pavucontrol$"] floating enable
+for_window [class="^Steam$" title="^Friends$"] floating enable
+for_window [class="^Steam$" title="Friends List"] floating enable
+for_window [class="^Steam$" title="Steam - News"] floating enable
+for_window [class="Wine"] floating enable
+for_window [title="Origin"] floating enable
+for_window [title="User Profile"] floating enable
+for_window [title="Tools"] floating enable
+for_window [title="History"] floating enable
+for_window [title="Layers"] floating enable
+for_window [class="^Steam$" title=".* - Chat"] floating enable
+for_window [class="^Steam$" title="^Settings$"] floating enable
+for_window [class="^Steam$" title=".* - event started"] floating enable
+for_window [class="^Steam$" title=".* CD key"] floating enable
+for_window [class="^Steam$" title="^Steam - Self Updater$"] floating enable
+for_window [class="^Steam$" title="^Screenshot Uploader$"] floating enable
+for_window [class="^Steam$" title="^Steam Guard - Computer Authorization Required$"] floating enable
+for_window [title="^Steam Keyboard$"] floating enable
+for_window [class="steam_app_253230"] fullscreen enable
+for_window [class="hatintimegame.exe"] fullscreen enable
+for_window [class="HatinTimeGame.exe"] fullscreen enable
+for_window [title="Volume Control"] floating disable
+for_window [title="Microsoft Teams Notification" class="microsoft teams - preview"] floating enable
+for_window [title="Microsoft Teams Notification" class="Microsoft Teams - Preview"] floating enable 
+
+
+# bar {
+	# position top
+	# wrap_scroll yes
+	# status_command i3status-rs ~/.config/i3status-rust/config.toml
+	# font pango:Hack, Noto 8
+    # colors {
+        # statusline #abb2bf
+        # background #282c34
+        # focused_workspace #61afef #61afef #282c34
+        # inactive_workspace #282c34 #282c34 #abb2bf
+	# }
+# }
+
+
+# bar {
+	# position top
+	# #swaybar_command waybar
+	# status_command i3status-rs ~/.config/i3status-rust/config.toml
+	# #font Siji 9
+	# #font Siji 9
+	# font pango: Hack, FontAwesome 9
+	# colors {
+		# statusline #abb2bf
+		# background #282c34
+		# focused_workspace #61afef #61afef #282c34
+		# inactive_workspace #282c34 #282c34 #abb2bf
+	# }
+# }
+
+
+# bar {
+	# position top
+	# #tray_output primary
+	# status_command i3status-rs ~/.config/i3status-rust/config.toml
+	# font pango:Hack, Font Awesome 5 Free 9
+	# colors {
+		# statusline $fg
+		# background $bg
+		# focused_workspace #61afef #61afef #282c34
+		# inactive_workspace #282c34 #282c34 #abb2bf
+	# }
+	# bindsym button4 workspace prev_on_output
+	# bindsym button5 workspace next_on_output
+# }
+
+# bar {
+	# swaybar_command waybar
+# }
+
+
+bar {
+	position top
+#	tray_output primary
+	status_command i3status-rs ~/.config/i3status-rust/config.toml
+	font pango:Hack, Font Awesome 5 Free 9
+	colors {
+		statusline $fg
+		background $bg
+		focused_workspace #61afef #61afef #282c34
+		inactive_workspace #282c34 #282c34 #abb2bf
+	}
+	bindsym button4 workspace prev_on_output
+	bindsym button5 workspace next_on_output
+}
