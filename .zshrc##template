@@ -23,6 +23,7 @@ export ZSH_AUTOSUGGEST_USE_ASYNC=1
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 export RBENV_SHELL=zsh
 export GPG_TTY=$(tty)
+export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden"
 
 {% if yadm.os == "Linux" %}
 export WINEESYNC=1

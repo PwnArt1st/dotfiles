@@ -2,7 +2,7 @@
 
 system_type=$(uname -s)
 
-shared_progs=(aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh bat ccache sccache bc fd)
+shared_progs=(aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh bat ccache sccache bc fd ripgrep)
 mac_progs=(gpg delta bitwarden iterm2)
 arch_progs=(moar gnupg git-delta-bin)
 zsh_plugs=("https://github.com/Aloxaf/fzf-tab" "https://github.com/zsh-users/zsh-autosuggestions" \
