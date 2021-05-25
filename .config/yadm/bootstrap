@@ -2,8 +2,9 @@
 
 system_type=$(uname -s)
 
-mac_progs=(aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh bat ccache sccache bc gpg delta bitwarden iterm2)
-arch_progs=(aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh moar bat sccache bc gnupg git-delta-git)
+shared_progs=(aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh bat ccache sccache bc fd)
+mac_progs=(gpg delta bitwarden iterm2)
+arch_progs=(moar gnupg git-delta-bin)
 zsh_plugs=("https://github.com/Aloxaf/fzf-tab" "https://github.com/zsh-users/zsh-autosuggestions" \
            "https://github.com/zdharma/fast-syntax-highlighting" "https://github.com/zsh-users/zsh-history-substring-search"\
            "https://github.com/romkatv/powerlevel10k" "https://github.com/g-plane/zsh-yarn-autocompletions")
@@ -18,7 +19,7 @@ if [ "$system_type" = "Darwin" ]; then
 
   brew update
   brew upgrade
-  brew install ${mac_progs[@]}
+  brew install ${shared_progs[@]} ${mac_progs[@]}
 fi
 
 
@@ -37,7 +38,7 @@ if [ "$system_type" = "Linux" ]; then
 				cd "$HOME"
 				rm -rf "$HOME/paru"
 			fi
-			paru -S --noconfirm --needed ${arch_progs[@]}
+			paru -S --noconfirm --needed ${shared_progs[@]} ${arch_progs[@]}
 		else
 			echo "Not an arch system."
 		fi
@@ -52,4 +53,4 @@ cd "$HOME/.config/zsh"
 
 for plug in ${zsh_plugs[@]}; do git clone "$plug"; done
 
-zsh -i -c "source \"$HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh\"; build-fzf-tab-module"
+zsh -c "source \"$HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh\"; build-fzf-tab-module"
