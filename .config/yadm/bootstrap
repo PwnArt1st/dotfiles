@@ -2,6 +2,12 @@
 
 system_type=$(uname -s)
 
+mac_progs=(aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh bat ccache sccache bc gpg delta bitwarden iterm2)
+arch_progs=(aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh moar bat sccache bc gnupg git-delta-git)
+zsh_plugs=("https://github.com/Aloxaf/fzf-tab" "https://github.com/zsh-users/zsh-autosuggestions" \
+           "https://github.com/zdharma/fast-syntax-highlighting" "https://github.com/zsh-users/zsh-history-substring-search"\
+           "https://github.com/romkatv/powerlevel10k" "https://github.com/g-plane/zsh-yarn-autocompletions")
+
 if [ "$system_type" = "Darwin" ]; then
 
   # install homebrew if it's missing
@@ -12,8 +18,7 @@ if [ "$system_type" = "Darwin" ]; then
 
   brew update
   brew upgrade
-  brew install aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh bat ccache sccache bc gpg delta bitwarden iterm2
-
+  brew install ${mac_progs[@]}
 fi
 
 
@@ -21,7 +26,7 @@ if [ "$system_type" = "Linux" ]; then
 	if [ -f /etc/os-release ]; then
 		. /etc/os-release
 		if [ "$ID" = "arch" ]; then
-			sudo pacman -S base-devel ccache --noconfirm --needed
+			sudo pacman -S --noconfirm --needed base-devel ccache
 
 			# install paru if missing
 			if [ ! -f /usr/bin/paru ]; then
@@ -32,7 +37,7 @@ if [ "$system_type" = "Linux" ]; then
 				cd "$HOME"
 				rm -rf "$HOME/paru"
 			fi
-			paru -S aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh moar bat sccache bc gpg delta --noconfirm --needed
+			paru -S --noconfirm --needed ${arch_progs[@]}
 		else
 			echo "Not an arch system."
 		fi
@@ -45,11 +50,6 @@ fi
 mkdir "$HOME/.config/zsh"
 cd "$HOME/.config/zsh"
 
-git clone "https://github.com/Aloxaf/fzf-tab"
-git clone "https://github.com/zsh-users/zsh-autosuggestions"
-git clone "https://github.com/zdharma/fast-syntax-highlighting"
-git clone "https://github.com/zsh-users/zsh-history-substring-search"
-git clone "https://github.com/romkatv/powerlevel10k"
-git clone "https://github.com/g-plane/zsh-yarn-autocompletions"
+for plug in ${zsh_plugs[@]}; do git clone "$plug"; done
 
 zsh -i -c "source \"$HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh\"; build-fzf-tab-module"
