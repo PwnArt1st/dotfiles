@@ -33,7 +33,7 @@ export RBENV_SHELL=zsh
 # Path
 #
 
-path+=('/usr/lib/ccache/bin/' '/home/pie/.local/bin')
+path+=('/usr/lib/ccache/bin/' '$HOME/.local/bin')
 
 
 #
@@ -123,22 +123,7 @@ TRAPUSR1() {
 # rbenv
 #
 
-eval "$(rbenv init -)"
-command rbenv rehash 2>/dev/null
-rbenv() {
-  local command
-  command="${1:-}"
-  if [ "$#" -gt 0 ]; then
-    shift
-  fi
-
-  case "$command" in
-  rehash|shell)
-    eval "$(rbenv "sh-$command" "$@")";;
-  *)
-    command rbenv "$command" "$@";;
-  esac
-}
+eval "$(rbenv init - zsh)"
 
 
 #

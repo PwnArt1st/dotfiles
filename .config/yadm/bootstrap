@@ -12,7 +12,7 @@ if [ "$system_type" = "Darwin" ]; then
 
   brew update
   brew upgrade
-  brew install aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh bitwarden iterm2
+  brew install aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh moar bat ccache bitwarden iterm2
 
 fi
 
@@ -21,7 +21,9 @@ if [ "$system_type" = "Linux" ]; then
 	if [ -f /etc/os-release ]; then
 		. /etc/os-release
 		if [ "$ID" = "arch" ]; then
-			sudo pacman -S base-devel --noconfirm --needed
+			sudo pacman -S base-devel ccache --noconfirm --needed
+
+			# install paru if missing
 			if [ ! -f /usr/bin/paru ]; then
 				mkdir "$HOME/paru"
 				git clone https://aur.archlinux.org/paru-bin.git "$HOME/paru"
@@ -30,7 +32,7 @@ if [ "$system_type" = "Linux" ]; then
 				cd "$HOME"
 				rm -rf "$HOME/paru"
 			fi
-			paru -S aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh --noconfirm --needed
+			paru -S aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh moar bat --noconfirm --needed
 		else
 			echo "Not an arch system."
 		fi
@@ -38,6 +40,7 @@ if [ "$system_type" = "Linux" ]; then
 		echo "Unable to find /etc/os-release."
 	fi
 fi
+
 
 mkdir "$HOME/.config/zsh"
 cd "$HOME/.config/zsh"
