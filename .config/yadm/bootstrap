@@ -12,7 +12,7 @@ if [ "$system_type" = "Darwin" ]; then
 
   brew update
   brew upgrade
-  brew install aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh bat ccache sccache bc gpg bitwarden iterm2
+  brew install aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh bat ccache sccache bc gpg delta bitwarden iterm2
 
 fi
 
@@ -32,7 +32,7 @@ if [ "$system_type" = "Linux" ]; then
 				cd "$HOME"
 				rm -rf "$HOME/paru"
 			fi
-			paru -S aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh moar bat sccache bc gpg --noconfirm --needed
+			paru -S aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh moar bat sccache bc gpg delta --noconfirm --needed
 		else
 			echo "Not an arch system."
 		fi

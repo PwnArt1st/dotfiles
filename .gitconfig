@@ -1,0 +1,25 @@
+[user]
+	name = ibrokemypie
+	email = ibrokemypie@outlook.com
+	
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	
+[credential]
+	helper = /usr/lib/git-core/git-credential-libsecret
+
+[core]
+    pager = delta
+    editor = micro
+
+[delta]
+    plus-style = "syntax #012800"
+    minus-style = "syntax #340001"
+    syntax-theme = Monokai Extended
+    navigate = true
+
+[interactive]
+    diffFilter = delta --color-only
