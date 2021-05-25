@@ -102,6 +102,10 @@ alias ls='exa'
 alias nano='micro'
 alias cat=bat
 
+if [ -z ${DISPLAY+x} ] ; then
+	alias gpg="gpg --pinentry-mode loopback "
+fi
+
 {% if yadm.os == "Linux" %}
 alias cp='cp --reflink=auto'
 alias tkg="bash $HOME/git/tkg/update.sh"
