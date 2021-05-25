@@ -1,0 +1,52 @@
+#!/bin/sh
+
+system_type=$(uname -s)
+
+if [ "$system_type" = "Darwin" ]; then
+
+  # install homebrew if it's missing
+  if ! command -v brew >/dev/null 2>&1; then
+    echo "Installing homebrew"
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  fi
+
+  brew update
+  brew upgrade
+  brew install aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh bitwarden iterm2
+
+fi
+
+
+if [ "$system_type" = "Linux" ]; then
+	if [ -f /etc/os-release ]; then
+		. /etc/os-release
+		if [ "$ID" = "arch" ]; then
+			sudo pacman -S base-devel --noconfirm --needed
+			if [ ! -f /usr/bin/paru ]; then
+				mkdir "$HOME/paru"
+				git clone https://aur.archlinux.org/paru-bin.git "$HOME/paru"
+				cd "$HOME/paru"
+				makepkg -iscrC --noconfirm --needed
+				cd "$HOME"
+				rm -rf "$HOME/paru"
+			fi
+			paru -S aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh --noconfirm --needed
+		else
+			echo "Not an arch system."
+		fi
+	else
+		echo "Unable to find /etc/os-release."
+	fi
+fi
+
+mkdir "$HOME/.config/zsh"
+cd "$HOME/.config/zsh"
+
+git clone "https://github.com/Aloxaf/fzf-tab"
+git clone "https://github.com/zsh-users/zsh-autosuggestions"
+git clone "https://github.com/zdharma/fast-syntax-highlighting"
+git clone "https://github.com/zsh-users/zsh-history-substring-search"
+git clone "https://github.com/romkatv/powerlevel10k"
+git clone "https://github.com/g-plane/zsh-yarn-autocompletions"
+
+zsh -i -c "source \"$HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh\"; build-fzf-tab-module"
