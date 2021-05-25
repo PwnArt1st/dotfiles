@@ -21,20 +21,30 @@ export GIT_EDITOR=micro
 export RUSTC_WRAPPER=sccache
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+export RBENV_SHELL=zsh
+
+{% if yadm.os == "Linux" %}
 export WINEESYNC=1
 export WINEFSYNC=1
 export PAGER='moar'
 export SYSTEMD_LESS='FRSMK'
 export SYSTEMD_PAGER='moar'
-export RBENV_SHELL=zsh
+{% endif %}
 
 
 #
 # Path
 #
 
-path+=('/usr/lib/ccache/bin/' '$HOME/.local/bin')
+path+=('$HOME/.local/bin')
 
+{% if yadm.os == "Linux" %}
+path+=('/usr/lib/ccache/bin/')
+{% endif %}
+
+{% if yadm.os == "Darwin" %}
+path+=('/usr/local/bin/ccache' '/usr/local/opt/python/libexec/bin')
+{% endif %}
 
 #
 # Options
@@ -69,7 +79,14 @@ zle -N history-substring-search-down
 # Sources
 #
 
+{% if yadm.os == "Linux" %}
 source '/usr/lib/rbenv/completions/rbenv.zsh'
+{% endif %}
+
+{% if yadm.os == "Darwin" %}
+fpath+=("$(brew --prefix)/share/zsh/site-functions")
+{% endif %}
+
 source "$HOME/.config/zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 source "$HOME/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh"
@@ -82,12 +99,15 @@ source "$HOME/.config/zsh/powerlevel10k/powerlevel10k.zsh-theme"
 #
 
 alias ls='exa'
-alias cp='cp --reflink=auto'
 alias nano='micro'
 alias cat=bat
+
+{% if yadm.os == "Linux" %}
+alias cp='cp --reflink=auto'
 alias tkg="bash $HOME/git/tkg/update.sh"
 alias copy="xclip -selection c"
 alias yay=paru
+{% endif %}
 
 
 #
@@ -100,7 +120,7 @@ function mkcd(){
 }
 
 function paste() {
-	socat - TCP:termsend.pl:1337
+	curl --progress-bar -F "file=@${1:--}" https://0x0.st | tee
 }
 
 
@@ -113,11 +133,6 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 bindkey '^D' exit_zsh
 
-zshcache_time="$(date +%s%N)"
-TRAPUSR1() {
-  rehash
-}
-
 
 #
 # rbenv
@@ -125,12 +140,17 @@ TRAPUSR1() {
 
 eval "$(rbenv init - zsh)"
 
-
+{% if yadm.os == "Linux" %}
 #
 # Terminal title hooks
 #
 
 autoload -Uz add-zsh-hook
+
+zshcache_time="$(date +%s%N)"
+TRAPUSR1() {
+  rehash
+}
 
 function xterm_title_precmd () {
 	print -Pn -- '\e]2;%n@%m %~\a'
@@ -146,7 +166,7 @@ if [[ "$TERM" == (alacritty*|gnome*|konsole*|putty*|rxvt*|screen*|tmux*|xterm*) 
 	add-zsh-hook -Uz precmd xterm_title_precmd
 	add-zsh-hook -Uz preexec xterm_title_preexec
 fi
-
+{% endif %}
 
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
