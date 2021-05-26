@@ -162,4 +162,4 @@ is_list_ignored = true
 regex = true
 case_sensitive = false
 whole_word = false
-list = ["/games", "/data", "/home/*"]
+list = ["/games", "/home/*"]
