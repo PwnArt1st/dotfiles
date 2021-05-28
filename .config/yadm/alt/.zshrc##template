@@ -68,7 +68,7 @@ zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 
-autoload -Uz compinit edit-command-line zcalc $HOME/.config/zsh/func
+autoload -Uz compinit edit-command-line zcalc $HOME/.config/zsh/func/*
 for dump in ~/.zcompdump(N.mh+24); do
   compinit
 done
