@@ -84,12 +84,7 @@ zle -N history-substring-search-down
 # Sources
 #
 
-{% if yadm.os == "Linux" %}
-source '/usr/lib/rbenv/completions/rbenv.zsh'
-{% endif %}
-
-
-source "$HOME/.config/zsh/evalcache/evalcache.plugin.zsh"
+source "$HOME/.config/zsh/zsh-lazyload/zsh-lazyload.zsh"
 source "$HOME/.config/zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 source "$HOME/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh"
@@ -134,7 +129,7 @@ bindkey '^D' exit_zsh
 # rbenv
 #
 
-_evalcache rbenv init - zsh
+lazyload rbenv ruby rake bundle bundler gem irb -- 'eval "$(rbenv init -)"'
 
 {% if yadm.os == "Linux" %}
 #

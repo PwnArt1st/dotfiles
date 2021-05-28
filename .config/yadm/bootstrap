@@ -8,7 +8,7 @@ arch_progs=(moar gnupg git-delta-bin)
 zsh_plugs=("https://github.com/Aloxaf/fzf-tab" "https://github.com/zsh-users/zsh-autosuggestions" \
            "https://github.com/zdharma/fast-syntax-highlighting" "https://github.com/zsh-users/zsh-history-substring-search"\
            "https://github.com/romkatv/powerlevel10k" "https://github.com/g-plane/zsh-yarn-autocompletions" \
-           "https://github.com/mroth/evalcache" "https://github.com/wfxr/forgit")
+           "https://github.com/qoomon/zsh-lazyload" "https://github.com/wfxr/forgit")
 
 if [ "$system_type" = "Darwin" ]; then
 
@@ -33,7 +33,7 @@ if [ "$system_type" = "Linux" ]; then
 			# install paru if missing
 			if [ ! -f /usr/bin/paru ]; then
 				mkdir "$HOME/paru"
-				git clone https://aur.archlinux.org/paru-bin.git "$HOME/paru"
+				git clone https://aur.archlinux.org/paru-bin.git "$HOME/paru" --depth=1
 				cd "$HOME/paru"
 				makepkg -iscrC --noconfirm --needed
 				cd "$HOME"
@@ -62,14 +62,15 @@ for plug in ${zsh_plugs[@]}; do
 			fi
 			echo "$status"
 		fi
+		cd "$HOME/.config/zsh"
 	else
-		git clone "$plug" "$plugdir"
+		git clone "$plug" "$plugdir" --depth=1
 		if [ "$plugdir" = "fzf-tab" ]; then
 			fzf_tab_updated=true
 		fi
 	fi
 done
 
-if [[ "$fzf_tab_updated" = true ]]; then
+if [ "$fzf_tab_updated" = true ]; then
 	zsh -c "source \"$HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh\"; build-fzf-tab-module"
 fi
