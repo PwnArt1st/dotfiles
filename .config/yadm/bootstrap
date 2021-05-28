@@ -51,12 +51,12 @@ fi
 cd "$HOME/.config/zsh"
 
 for plug in ${zsh_plugs[@]}; do
-	plugdir=$(basename "$plug")
-	if [[ -d "$plugdir" ]]; then
-		cd $plugdir
+	plugdir="$(basename $plug)"
+	if [ -d "$plugdir" ]; then
+		cd "$plugdir"
 		git pull
 	else
-		git clone "$plug" $plugdir
+		git clone "$plug" "$plugdir"
 	fi
 done
 
