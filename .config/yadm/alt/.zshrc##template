@@ -115,6 +115,7 @@ alias cp='cp --reflink=auto'
 alias tkg="bash $HOME/git/tkg/update.sh"
 alias copy="xclip -selection c"
 alias yay='paru'
+alias whichpkg="pacman -Qo"
 {% endif %}
 
 
