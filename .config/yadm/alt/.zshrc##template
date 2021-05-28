@@ -102,6 +102,7 @@ source "$HOME/.config/zsh/powerlevel10k/powerlevel10k.zsh-theme"
 #
 
 alias ls='exa'
+alias tree='exa --tree'
 alias nano='micro'
 alias cat='bat'
 
