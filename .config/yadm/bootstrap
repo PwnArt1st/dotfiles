@@ -70,5 +70,5 @@ for plug in ${zsh_plugs[@]}; do
 done
 
 if [ "$fzf_tab_updated" = true ]; then
-	zsh -c "source \"$HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh\"; build-fzf-tab-module"
+	zsh -c "source $HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh; build-fzf-tab-module"
 fi
