@@ -55,10 +55,21 @@ for plug in ${zsh_plugs[@]}; do
 	plugdir="$(basename $plug)"
 	if [ -d "$plugdir" ]; then
 		cd "$plugdir"
-		git pull
+		status=$(git pull)
+		if [ "$status" != "Already up to date." ]; then
+			if [ "$plugdir" = "fzf-tab" ]; then
+				fzf_tab_updated=true
+			fi
+			echo "$status"
+		fi
 	else
 		git clone "$plug" "$plugdir"
+		if [ "$plugdir" = "fzf-tab" ]; then
+			fzf_tab_updated=true
+		fi
 	fi
 done
 
-zsh -c "source \"$HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh\"; build-fzf-tab-module"
+if [[ "$fzf_tab_updated" = true ]]; then
+	zsh -c "source \"$HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh\"; build-fzf-tab-module"
+fi
