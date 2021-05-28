@@ -68,7 +68,7 @@ zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 
-autoload -Uz compinit edit-command-line $HOME/.config/zsh/func
+autoload -Uz compinit edit-command-line zcalc $HOME/.config/zsh/func
 compinit
 
 zle -N edit-command-line
@@ -199,5 +199,5 @@ function command_not_found_handler {
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-dur=$(echo "$EPOCHREALTIME - $start" | bc)
+dur=$(zcalc "$EPOCHREALTIME - $start" | cut -d' ' -f2)
 echo "Execution time: $dur seconds"
