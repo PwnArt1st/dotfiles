@@ -7,7 +7,8 @@ mac_progs=(gpg delta bitwarden iterm2)
 arch_progs=(moar gnupg git-delta-bin bc)
 zsh_plugs=("https://github.com/Aloxaf/fzf-tab" "https://github.com/zsh-users/zsh-autosuggestions" \
            "https://github.com/zdharma/fast-syntax-highlighting" "https://github.com/zsh-users/zsh-history-substring-search"\
-           "https://github.com/romkatv/powerlevel10k" "https://github.com/g-plane/zsh-yarn-autocompletions" "https://github.com/mroth/evalcache")
+           "https://github.com/romkatv/powerlevel10k" "https://github.com/g-plane/zsh-yarn-autocompletions" \
+           "https://github.com/mroth/evalcache" "https://github.com/wfxr/forgit")
 
 if [ "$system_type" = "Darwin" ]; then
 

@@ -95,6 +95,7 @@ source "$HOME/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh"
 source "$HOME/.config/zsh/zsh-history-substring-search/zsh-history-substring-search.zsh"
 source "$HOME/.config/zsh/powerlevel10k/powerlevel10k.zsh-theme"
+source "$HOME/.config/zsh/forgit/forgit.plugin.zsh"
 
 
 #
