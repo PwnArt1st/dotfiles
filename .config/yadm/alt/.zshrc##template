@@ -21,7 +21,6 @@ export GIT_EDITOR=micro
 export RUSTC_WRAPPER=sccache
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-export RBENV_SHELL=zsh
 export GPG_TTY=$(tty)
 export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden"
 
@@ -38,7 +37,8 @@ export SYSTEMD_PAGER='moar'
 # Path
 #
 
-path+=('$HOME/.local/bin')
+path+=("$HOME/.local/bin")
+fpath+=("$HOME/.config/zsh/func")
 
 {% if yadm.os == "Linux" %}
 path+=('/usr/lib/ccache/bin/')
@@ -46,6 +46,7 @@ path+=('/usr/lib/ccache/bin/')
 
 {% if yadm.os == "Darwin" %}
 path+=('/usr/local/bin/ccache' '/usr/local/opt/python/libexec/bin')
+fpath+=("$(brew --prefix)/share/zsh/site-functions")
 {% endif %}
 
 #
@@ -53,9 +54,12 @@ path+=('/usr/local/bin/ccache' '/usr/local/opt/python/libexec/bin')
 #
 
 bindkey -e
-setopt sharehistory autocd extendedglob append_history hist_ignore_dups hist_expire_dups_first hist_verify hist_ignore_space
+setopt sharehistory autocd extendedglob append_history \
+	   hist_ignore_dups hist_expire_dups_first hist_verify \
+	   hist_ignore_space complete_aliases
 
 # The following lines were added by compinstall
+zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} m:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'l:|=* r:|=*'
 zstyle ':completion::complete:*' gain-privileges 1
@@ -64,10 +68,9 @@ zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 
-autoload -Uz compinit
+autoload -Uz compinit edit-command-line $HOME/.config/zsh/func
 compinit
 
-autoload edit-command-line
 zle -N edit-command-line
 
 exit_zsh() { exit }
@@ -85,10 +88,8 @@ zle -N history-substring-search-down
 source '/usr/lib/rbenv/completions/rbenv.zsh'
 {% endif %}
 
-{% if yadm.os == "Darwin" %}
-fpath+=("$(brew --prefix)/share/zsh/site-functions")
-{% endif %}
 
+source "$HOME/.config/zsh/evalcache/evalcache.plugin.zsh"
 source "$HOME/.config/zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 source "$HOME/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh"
@@ -102,7 +103,7 @@ source "$HOME/.config/zsh/powerlevel10k/powerlevel10k.zsh-theme"
 
 alias ls='exa'
 alias nano='micro'
-alias cat=bat
+alias cat='bat'
 
 if [ -z ${DISPLAY+x} ] ; then
 	alias gpg="gpg --pinentry-mode loopback "
@@ -112,22 +113,8 @@ fi
 alias cp='cp --reflink=auto'
 alias tkg="bash $HOME/git/tkg/update.sh"
 alias copy="xclip -selection c"
-alias yay=paru
+alias yay='paru'
 {% endif %}
-
-
-#
-# Functions
-#
-
-function mkcd(){
-	mkdir -p -- "$1" &&
-	cd -P -- "$1"
-}
-
-function paste() {
-	curl --progress-bar -F "file=@${1:--}" https://0x0.st | tee
-}
 
 
 #
@@ -144,19 +131,20 @@ bindkey '^D' exit_zsh
 # rbenv
 #
 
-eval "$(rbenv init - zsh)"
+_evalcache rbenv init - zsh
 
 {% if yadm.os == "Linux" %}
+#
+# Completion rehash
+#
+
+TRAPUSR1() { rehash }
+
 #
 # Terminal title hooks
 #
 
 autoload -Uz add-zsh-hook
-
-zshcache_time="$(date +%s%N)"
-TRAPUSR1() {
-  rehash
-}
 
 function xterm_title_precmd () {
 	print -Pn -- '\e]2;%n@%m %~\a'
@@ -168,10 +156,41 @@ function xterm_title_preexec () {
 	[[ "$TERM" == 'screen'* ]] && { print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-} %# ' && print -n -- "${(q)1}\e\\"; }
 }
 
-if [[ "$TERM" == (alacritty*|gnome*|konsole*|putty*|rxvt*|screen*|tmux*|xterm*) ]]; then
+if [[ "$TERM" == (Eterm*|alacritty*|aterm*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|tmux*|xterm*) ]]; then
 	add-zsh-hook -Uz precmd xterm_title_precmd
 	add-zsh-hook -Uz preexec xterm_title_preexec
 fi
+
+#
+# Pacman command not found
+#
+
+function command_not_found_handler {
+    local purple='\e[1;35m' bright='\e[0;1m' green='\e[1;32m' reset='\e[0m'
+    printf 'zsh: command not found: %s\n' "$1"
+    local entries=(
+        ${(f)"$(/usr/bin/pacman -F --machinereadable -- "/usr/bin/$1")"}
+    )
+    if (( ${#entries[@]} ))
+    then
+        printf "${bright}$1${reset} may be found in the following packages:\n"
+        local pkg
+        for entry in "${entries[@]}"
+        do
+            # (repo package version file)
+            local fields=(
+                ${(0)entry}
+            )
+            if [[ "$pkg" != "${fields[2]}" ]]
+            then
+                printf "${purple}%s/${bright}%s ${green}%s${reset}\n" "${fields[1]}" "${fields[2]}" "${fields[3]}"
+            fi
+            printf '    /%s\n' "${fields[4]}"
+            pkg="${fields[2]}"
+        done
+    fi
+}
+
 {% endif %}
 
 
