@@ -199,5 +199,5 @@ function command_not_found_handler {
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-dur=$(zcalc "$EPOCHREALTIME - $start" | cut -d' ' -f2)
+let "dur = $EPOCHREALTIME - $start"
 echo "Execution time: $dur seconds"
