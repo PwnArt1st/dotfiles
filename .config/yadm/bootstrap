@@ -1,6 +1,6 @@
 #!/bin/sh
 
-system_type=$(uname -s)
+system_type="$(uname -s)"
 
 shared_progs=(aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh bat ccache sccache fd ripgrep)
 mac_progs=(gpg git-delta bitwarden iterm2)
@@ -31,7 +31,7 @@ if [ "$system_type" = "Linux" ]; then
 			# install paru if missing
 			if [ ! -f /usr/bin/paru ]; then
 				mkdir "$HOME/paru"
-				git clone https://aur.archlinux.org/paru-bin.git "$HOME/paru" --depth=1
+				git clone "https://aur.archlinux.org/paru-bin.git" "$HOME/paru" --depth=1
 				cd "$HOME/paru"
 				makepkg -iscrC --noconfirm --needed
 				cd "$HOME"
@@ -47,20 +47,18 @@ if [ "$system_type" = "Linux" ]; then
 fi
 
 
-cd "$HOME/.config/zsh"
-
 for plug in ${zsh_plugs[@]}; do
+	cd "$HOME/.config/zsh"
 	plugdir="$(basename $plug)"
 	if [ -d "$plugdir" ]; then
 		cd "$plugdir"
-		status=$(git pull)
+		status="$(git pull)"
 		if [ "$status" != "Already up to date." ]; then
 			if [ "$plugdir" = "fzf-tab" ]; then
 				fzf_tab_updated=true
 			fi
 			echo "$status"
 		fi
-		cd "$HOME/.config/zsh"
 	else
 		git clone "$plug" "$plugdir" --depth=1
 		if [ "$plugdir" = "fzf-tab" ]; then
