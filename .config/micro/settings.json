@@ -1,7 +1,12 @@
 {
+    "aspell.lang": "en_AU",
+    "autoclose": false,
     "autosu": true,
     "backup": false,
-    "colorscheme": "gruvbox-tc",
+    "colorcolumn": 80,
+    "colorscheme": "gruvbox",
     "diffgutter": true,
-    "mkparents": true
+    "mkparents": true,
+    "saveundo": true,
+    "softwrap": true
 }

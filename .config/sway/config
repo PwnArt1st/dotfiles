@@ -27,10 +27,11 @@ exec --no-startup-id thunar --daemon
 exec --no-startup-id steam-native -silent %U 
 exec --no-startup-id discord-canary --start-minimized
 exec --no-startup-id telegram-desktop -startintray
-exec --no-startup-id swayidle timeout 300 'swaylock'
+#exec --no-startup-id swayidle timeout 300 'swaylock'
 exec --no-startup-id gammastep-indicator
 exec --no-startup-id 'nm-applet --indicator'
 exec --no-startup-id 'foot --server'
+exec --no-stratup-id pulseeffects --gapplication-service
 
 exec xrandr --output XWAYLAND0 --primary
 #exec xrandr --output XWAYLAND2 --primary
