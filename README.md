@@ -12,4 +12,4 @@ Managed with yadm
 
 Bootstrap script for MacOS and Arch is at ``.config/yadm/bootstrap``
 
-Also check out ``.config/yadm/alts`` for some OS specific configuration.
+Also check out ``.config/yadm/alt`` for some OS specific configuration.
