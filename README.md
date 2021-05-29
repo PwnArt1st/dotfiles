@@ -8,3 +8,8 @@ Managed with yadm
 
 ``yadm decrypt``
 
+
+
+Bootstrap script for MacOS and Arch is at ``.config/yadm/bootstrap``
+
+Also check out ``.config/yadm/alts`` for some OS specific configuration.
