@@ -1,4 +1,4 @@
-zmodload zsh/datetime
+zmodload zsh/datetime zsh/z
 start=$EPOCHREALTIME
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -10,17 +10,25 @@ fi
 
 
 #
-# Exports
+# Variables
 #
 
-export HISTFILE=~/.histfile
-export HISTSIZE=1000
-export SAVEHIST=1000
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=10000
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_DIR=$HOME/.config/zsh
+ZSH_PLUGS=("fzf-tab/fzf-tab.plugin.zsh" "zsh-lazyload/zsh-lazyload.zsh" \
+		   "fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" \
+		   "zsh-autosuggestions/zsh-autosuggestions.zsh" \
+		   "zsh-completions/zsh-completions.plugin.zsh" \
+		   "zsh-history-substring-search/zsh-history-substring-search.zsh" \
+		   "powerlevel10k/powerlevel10k.zsh-theme" "forgit/forgit.plugin.zsh")
+
 export EDITOR=micro
 export GIT_EDITOR=micro
 export RUSTC_WRAPPER=sccache
-export ZSH_AUTOSUGGEST_USE_ASYNC=1
-export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 export GPG_TTY=$(tty)
 export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden"
 
@@ -73,9 +81,8 @@ zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 
-zsh_dir=$HOME/.config/zsh
 
-autoload -Uz compinit edit-command-line $zsh_dir/func/*
+autoload -Uz compinit edit-command-line add-zsh-hook $ZSH_DIR/func/*
 
 # only compinit once a day
 for dump in ~/.zcompdump(N.mh+24); do
@@ -93,12 +100,12 @@ zcompare ${ZDOTDIR:-${HOME}}/.p10k.zsh
 zcompare "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 
 # zcompile sourced scripts
-for file in $zsh_dir/**/*.zsh; do
+for file in $ZSH_DIR/**/*.zsh; do
 	zcompare "$file"
 done
 
 # zcompile autoloaded functions
-for file in $zsh_dir/func/^(*.zwc)(.); do
+for file in $ZSH_DIR/func/^(*.zwc)(.); do
 	zcompare "$file"
 done
 
@@ -115,14 +122,9 @@ zle -N history-substring-search-down
 # Sources
 #
 
-source "$zsh_dir/zsh-lazyload/zsh-lazyload.zsh"
-source "$zsh_dir/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
-source "$zsh_dir/zsh-autosuggestions/zsh-autosuggestions.zsh"
-source "$zsh_dir/fzf-tab/fzf-tab.plugin.zsh"
-source "$zsh_dir/zsh-history-substring-search/zsh-history-substring-search.zsh"
-source "$zsh_dir/powerlevel10k/powerlevel10k.zsh-theme"
-source "$zsh_dir/forgit/forgit.plugin.zsh"
-
+for p in $ZSH_PLUGS; do
+	source "$ZSH_DIR/$p"
+done
 
 #
 # Aliases
@@ -172,8 +174,6 @@ TRAPUSR1() { rehash }
 #
 # Terminal title hooks
 #
-
-autoload -Uz add-zsh-hook
 
 if [[ "$TERM" == (Eterm*|alacritty*|aterm*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|tmux*|xterm*|foot*) ]]; then
 	add-zsh-hook -Uz precmd xterm_title_precmd
