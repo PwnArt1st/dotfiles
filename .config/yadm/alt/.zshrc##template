@@ -54,14 +54,14 @@ infopath+=("$HOMEBREW_PREFIX/share/info")
 fpath+=("$HOMEBREW_PREFIX/share/zsh/site-functions")
 {% endif %}
 
+
 #
 # Options
 #
 
 bindkey -e
-setopt sharehistory autocd extendedglob append_history \
-	   hist_ignore_dups hist_expire_dups_first hist_verify \
-	   hist_ignore_space complete_aliases
+setopt sharehistory autocd extendedglob append_history correct \
+	   hist_ignore_all_dups hist_verify hist_ignore_space complete_aliases
 
 # The following lines were added by compinstall
 zstyle ':completion:*:git-checkout:*' sort false
@@ -73,17 +73,40 @@ zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 
-autoload -Uz compinit edit-command-line zcalc $HOME/.config/zsh/func/*
+zsh_dir=$HOME/.config/zsh
+
+autoload -Uz compinit edit-command-line $zsh_dir/func/*
+
+# only compinit once a day
 for dump in ~/.zcompdump(N.mh+24); do
   compinit
 done
-compinit -C
 
-zle -N edit-command-line
+# zcompile .zshrc
+zcompare ${ZDOTDIR:-${HOME}}/.zshrc
+
+# zcompile the completion cache
+zcompare ${ZDOTDIR:-${HOME}}/.zcompdump
+
+# zcompile p10k config
+zcompare ${ZDOTDIR:-${HOME}}/.p10k.zsh
+zcompare "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+
+# zcompile sourced scripts
+for file in $zsh_dir/**/*.zsh; do
+	zcompare "$file"
+done
+
+# zcompile autoloaded functions
+for file in $zsh_dir/func/^(*.zwc)(.); do
+	zcompare "$file"
+done
+
+compinit -C
 
 exit_zsh() { exit }
 zle -N exit_zsh
-
+zle -N edit-command-line
 zle -N history-substring-search-up
 zle -N history-substring-search-down
 
@@ -92,13 +115,13 @@ zle -N history-substring-search-down
 # Sources
 #
 
-source "$HOME/.config/zsh/zsh-lazyload/zsh-lazyload.zsh"
-source "$HOME/.config/zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
-source "$HOME/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
-source "$HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh"
-source "$HOME/.config/zsh/zsh-history-substring-search/zsh-history-substring-search.zsh"
-source "$HOME/.config/zsh/powerlevel10k/powerlevel10k.zsh-theme"
-source "$HOME/.config/zsh/forgit/forgit.plugin.zsh"
+source "$zsh_dir/zsh-lazyload/zsh-lazyload.zsh"
+source "$zsh_dir/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+source "$zsh_dir/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "$zsh_dir/fzf-tab/fzf-tab.plugin.zsh"
+source "$zsh_dir/zsh-history-substring-search/zsh-history-substring-search.zsh"
+source "$zsh_dir/powerlevel10k/powerlevel10k.zsh-theme"
+source "$zsh_dir/forgit/forgit.plugin.zsh"
 
 
 #
