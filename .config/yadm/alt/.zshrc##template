@@ -84,10 +84,16 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 
 autoload -Uz compinit edit-command-line add-zsh-hook $ZSH_DIR/func/*
 
-# only compinit once a day
-for dump in ~/.zcompdump(N.mh+24); do
-  compinit
-done
+# Load and initialize the completion system ignoring insecure directories with a
+# cache time of 20 hours, so it should almost always regenerate the first time a
+# shell is opened each day.
+_comp_files=(${ZDOTDIR:-$HOME}/.zcompdump(Nm-20))
+if (( $#_comp_files )); then
+  compinit -i -C
+else
+  compinit -i
+fi
+unset _comp_files
 
 # zcompile .zshrc
 zcompare ${ZDOTDIR:-${HOME}}/.zshrc
@@ -108,8 +114,6 @@ done
 for file in $ZSH_DIR/func/^(*.zwc)(.); do
 	zcompare "$file"
 done
-
-compinit -C
 
 exit_zsh() { exit }
 zle -N exit_zsh
