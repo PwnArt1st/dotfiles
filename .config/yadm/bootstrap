@@ -23,26 +23,21 @@ fi
 
 
 if [ "$system_type" = "Linux" ]; then
-	if [ -f /etc/os-release ]; then
-		. /etc/os-release
-		if [ "$ID" = "arch" ]; then
-			sudo pacman -S --noconfirm --needed base-devel ccache
+	if command -v pacman >/dev/null 2>&1; then
+		sudo pacman -S --noconfirm --needed base-devel ccache
 
-			# install paru if missing
-			if [ ! -f /usr/bin/paru ]; then
-				mkdir "$HOME/paru"
-				git clone "https://aur.archlinux.org/paru-bin.git" "$HOME/paru" --depth=1
-				cd "$HOME/paru"
-				makepkg -iscrC --noconfirm --needed
-				cd "$HOME"
-				rm -rf "$HOME/paru"
-			fi
-			paru -S --noconfirm --needed ${shared_progs[@]} ${arch_progs[@]}
-		else
-			echo "Not an arch system."
+		# install paru if missing
+		if ! command -v paru >/dev/null 2>&1; then
+			mkdir "$HOME/paru"
+			git clone "https://aur.archlinux.org/paru-bin.git" "$HOME/paru" --depth=1
+			cd "$HOME/paru"
+			makepkg -iscrC --noconfirm --needed
+			cd "$HOME"
+			rm -rf "$HOME/paru"
 		fi
+		paru -S --noconfirm --needed ${shared_progs[@]} ${arch_progs[@]}
 	else
-		echo "Unable to find /etc/os-release."
+		echo "Not an arch based system."
 	fi
 fi
 
