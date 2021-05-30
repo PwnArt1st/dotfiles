@@ -1,4 +1,4 @@
-zmodload zsh/datetime zsh/z
+zmodload zsh/datetime
 start=$EPOCHREALTIME
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
