@@ -2,13 +2,15 @@
 
 system_type="$(uname -s)"
 
-shared_progs=(aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh bat ccache sccache fd ripgrep)
+shared_progs=(aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh bat ccache sccache fd ripgrep micro)
 mac_progs=(gpg git-delta bitwarden iterm2)
 arch_progs=(moar gnupg git-delta-bin)
+termux_progs=(man fzf pv exa fd tmux wget yadm zsh bat ripgrep micro)
 zsh_plugs=("https://github.com/Aloxaf/fzf-tab" "https://github.com/zsh-users/zsh-autosuggestions" \
            "https://github.com/zdharma/fast-syntax-highlighting" "https://github.com/zsh-users/zsh-history-substring-search"\
            "https://github.com/romkatv/powerlevel10k" "https://github.com/g-plane/zsh-yarn-autocompletions" \
-           "https://github.com/qoomon/zsh-lazyload" "https://github.com/wfxr/forgit" "https://github.com/zsh-users/zsh-completions")
+           "https://github.com/qoomon/zsh-lazyload" "https://github.com/wfxr/forgit" "https://github.com/zsh-users/zsh-completions "\
+           "https://github.com/zdharma/history-search-multi-word")
 
 if [ "$system_type" = "Darwin" ]; then
 
@@ -36,8 +38,10 @@ if [ "$system_type" = "Linux" ]; then
 			rm -rf "$HOME/paru"
 		fi
 		paru -S --noconfirm --needed ${shared_progs[@]} ${arch_progs[@]}
-	else
-		echo "Not an arch based system."
+	fi
+
+	if command -v pkg >/dev/null 2>&1; then
+		pkg install ${termux_progs[@]}
 	fi
 fi
 
