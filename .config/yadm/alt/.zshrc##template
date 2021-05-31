@@ -23,6 +23,7 @@ ZSH_PLUGS=("fzf-tab/fzf-tab.plugin.zsh" "zsh-lazyload/zsh-lazyload.zsh" \
 		   "fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" \
 		   "zsh-autosuggestions/zsh-autosuggestions.zsh" \
 		   "zsh-completions/zsh-completions.plugin.zsh" \
+		   "history-search-multi-word/history-search-multi-word.plugin.zsh" \
 		   "zsh-history-substring-search/zsh-history-substring-search.zsh" \
 		   "powerlevel10k/powerlevel10k.zsh-theme" "forgit/forgit.plugin.zsh")
 
@@ -80,9 +81,11 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+zstyle :plugin:history-search-multi-word reset-prompt-protect 1
 
-
-autoload -Uz compinit edit-command-line add-zsh-hook $ZSH_DIR/func/*
+autoload -Uz compinit edit-command-line add-zsh-hook run-help-git run-help-ip \
+			 run-help-openssl run-help-p4 run-help-sudo run-help-svk \
+			 run-help-svn $ZSH_DIR/func/*
 
 # Load and initialize the completion system ignoring insecure directories with a
 # cache time of 20 hours, so it should almost always regenerate the first time a
@@ -134,6 +137,10 @@ done
 # Aliases
 #
 
+autoload -Uz run-help
+(( ${+aliases[run-help]} )) && unalias run-help
+alias help=run-help
+
 alias ls='exa'
 alias tree='exa --tree'
 alias nano='micro'
@@ -173,7 +180,7 @@ lazyload rbenv ruby rake bundle bundler gem irb -- 'eval "$(rbenv init -)"'
 # Completion rehash
 #
 
-TRAPUSR1() { rehash }
+trap 'rehash' USR1
 
 #
 # Terminal title hooks
