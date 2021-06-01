@@ -70,7 +70,7 @@ fpath+=("$HOMEBREW_PREFIX/share/zsh/site-functions")
 
 bindkey -e
 setopt sharehistory autocd extendedglob append_history correct \
-	   hist_ignore_all_dups hist_verify hist_ignore_space complete_aliases
+	   hist_ignore_all_dups hist_verify hist_ignore_space
 
 # The following lines were added by compinstall
 zstyle ':completion:*:git-checkout:*' sort false
