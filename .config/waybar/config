@@ -16,7 +16,7 @@
         "custom/temperature#cpu",
         "custom/temperature#gpu",
         "network",
-        "custom/pipewire",
+        "custom/pulse",
         "clock",
         "tray"
     ],
@@ -72,15 +72,15 @@
         "tooltip": false,
         "interval": 5
     },
-    "custom/pipewire": {
-        "exec": "$HOME/.config/waybar/pipewire.sh",
+    "custom/pulse": {
+        "exec": "$HOME/.config/waybar/pulse.sh",
         "exec-on-event": false,
         "return-type": "json",
         "format": "{icon} {percentage}% {}",
         "on-click": "myxer",
-        "on-click-right": "$HOME/.config/waybar/pipewire.sh mute",
-        "on-scroll-up": "$HOME/.config/waybar/pipewire.sh up",
-        "on-scroll-down": "$HOME/.config/waybar/pipewire.sh down",
+        "on-click-right": "$HOME/.config/waybar/pulse.sh mute",
+        "on-scroll-up": "$HOME/.config/waybar/pulse.sh up",
+        "on-scroll-down": "$HOME/.config/waybar/pulse.sh down",
         "format-icons": {
             "playing": [
                 "",
