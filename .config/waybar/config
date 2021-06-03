@@ -33,8 +33,7 @@
     },
     "custom/window": {
         "exec":"$HOME/.config/waybar/window.sh",
-        "format": "{}"
-        
+        "exec-on-event": false
     },
     "idle_inhibitor": {
         "format": "{icon}",
