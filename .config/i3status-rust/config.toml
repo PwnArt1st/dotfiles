@@ -77,4 +77,4 @@ show_time = false
 [[block]]
 block = "time"
 interval = 1
-format = "%d/%m/%C %r"
+format = "%d/%m/%g %r"
