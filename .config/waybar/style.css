@@ -1,0 +1,117 @@
+* {
+    border: none;
+    border-radius: 0;
+    font-family: Hack, "Font Awesome 5 Free";
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: #282c34;
+    color: #EBDBB2;
+}
+
+#workspaces button {
+    background-color: #282c34;
+    padding: 0 6;
+    margin: 0;
+    min-width: 0;
+}
+
+#workspaces button.visible {
+    background-color: #5F676A;
+    color: #EFE2D0;
+    /* color: #282c34;; */
+}
+
+#workspaces button.focused {
+    background-color: #61afef;
+    color: #282c34; 
+}
+
+
+#workspaces button.urgent {
+    background-color: #eb4d4b;
+}
+
+#window, #workspaces {
+    margin: 0;
+    padding: 0;
+}
+
+#mode {
+    background-color: #64727D;
+    border-bottom: 3px solid #ffffff;
+}
+
+
+#clock, #battery, #cpu, #memory, #disk, #temperature, #backlight, #network, #pulseaudio, #custom-media, #tray, #mode, #idle_inhibitor, #mpd, #custom-temperature, #custom-pipewire, #custom-window {
+    /* padding: 0 10px; */
+    /* margin: 0 4px; */
+    padding: 1 4;
+    color: #EBDBB2;
+    background: #282828;
+}
+
+
+#clock {
+    /* background-color: #64727D; */
+}
+
+#cpu {
+    /* background-color: #2ecc71; */
+    /* color: #000000; */
+}
+
+#memory {
+    /* background-color: #9b59b6; */
+}
+
+#disk {
+    /* background-color: #964B00; */
+}
+
+
+#network {
+    /* background-color: #2980b9; */
+}
+
+#network.disconnected {
+    /* background-color: #f53c3c; */
+}
+
+#tray {
+    /* background-color: #2980b9; */
+}
+
+#idle_inhibitor {
+    /* background-color: #2d3436; */
+}
+
+#idle_inhibitor.activated {
+    /* background-color: #ecf0f1; */
+    /* color: #2d3436; */
+}
+#custom-pipewire.muted {
+    background: #D79921;
+}
+
+#custom-temperature.idle {
+    background: #282828;
+}
+
+#custom-temperature.info {
+    background: #458588;
+}
+
+#custom-temperature.good {
+    background: #98971a;
+}
+
+#custom-temperature.warning {
+    background: #d79921;
+}
+
+#custom-temperature.critical {
+    background: #cc241d;
+}
