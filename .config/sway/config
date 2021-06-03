@@ -13,8 +13,7 @@ exec_always "hash dbus-update-activation-environment 2>/dev/null; \
 
     
 exec_always autotiling    
-#exec_always export QT_QPA_PLATFORMTHEME=gtk2 XDG_CURRENT_DESKTOP=Unity QT_QPA_PLATFORM=xcb blank_mode=0 MOZ_ENABLE_WAYLAND=1 MOZ_DBUS_REMOTE=1
-exec_always export XDG_CURRENT_DESKTOP=sway
+
 
 exec --no-startup-id polkit-dumb-agent
 exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=pkcs11,ssh
@@ -34,13 +33,8 @@ exec --no-startup-id 'foot --server'
 exec --no-stratup-id pulseeffects --gapplication-service
 
 exec xrandr --output XWAYLAND0 --primary
-#exec xrandr --output XWAYLAND2 --primary
-
-#exec --no-startup-id "sh -c 'sleep 5; exec onedrive_tray'"
-
 
 input * xkb_numlock enable
-
 
 set $mod Mod4
 set $term footclient
@@ -365,68 +359,7 @@ for_window [title="Volume Control"] floating disable
 for_window [title="Microsoft Teams Notification" class="microsoft teams - preview"] floating enable
 for_window [title="Microsoft Teams Notification" class="Microsoft Teams - Preview"] floating enable 
 
-
-# bar {
-	# position top
-	# wrap_scroll yes
-	# status_command i3status-rs ~/.config/i3status-rust/config.toml
-	# font pango:Hack, Noto 8
-    # colors {
-        # statusline #abb2bf
-        # background #282c34
-        # focused_workspace #61afef #61afef #282c34
-        # inactive_workspace #282c34 #282c34 #abb2bf
-	# }
-# }
-
-
-# bar {
-	# position top
-	# #swaybar_command waybar
-	# status_command i3status-rs ~/.config/i3status-rust/config.toml
-	# #font Siji 9
-	# #font Siji 9
-	# font pango: Hack, FontAwesome 9
-	# colors {
-		# statusline #abb2bf
-		# background #282c34
-		# focused_workspace #61afef #61afef #282c34
-		# inactive_workspace #282c34 #282c34 #abb2bf
-	# }
-# }
-
-
-# bar {
-	# position top
-	# #tray_output primary
-	# status_command i3status-rs ~/.config/i3status-rust/config.toml
-	# font pango:Hack, Font Awesome 5 Free 9
-	# colors {
-		# statusline $fg
-		# background $bg
-		# focused_workspace #61afef #61afef #282c34
-		# inactive_workspace #282c34 #282c34 #abb2bf
-	# }
-	# bindsym button4 workspace prev_on_output
-	# bindsym button5 workspace next_on_output
-# }
-
-# bar {
-	# swaybar_command waybar
-# }
-
-
 bar {
-	position top
-#	tray_output primary
-	status_command i3status-rs ~/.config/i3status-rust/config.toml
-	font pango:Hack, Font Awesome 5 Free 9
-	colors {
-		statusline $fg
-		background $bg
-		focused_workspace #61afef #61afef #282c34
-		inactive_workspace #282c34 #282c34 #abb2bf
-	}
-	bindsym button4 workspace prev_on_output
-	bindsym button5 workspace next_on_output
+	swaybar_command waybar
 }
+
