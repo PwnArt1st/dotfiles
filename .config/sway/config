@@ -53,7 +53,8 @@ set $bg #282c34
 
 
 #output DP-3 pos 1600 0 res 1920x1080@144Hz
-#output DP-2 pos 0 0 res 1600x1200@60Hz
+output DP-2 pos 0 0
+output DP-1 pos 1920 0
 #output HDMI-A-1 pos 1600 0 res 1920x1080
 output HDMI-A-1 disable
 
@@ -217,6 +218,26 @@ mode  $power_control {
     bindsym Escape mode "default"
 }
 bindsym $mod+shift+e mode $power_control
+
+############################################
+#
+#			Input locking
+#
+############################################
+
+
+set $input_lock "[1]left [2]right [3]both"
+mode  $input_lock {
+    bindsym 1 exec swaymsg 'input 1133:16467:Logitech_G900 map_to_output dp-2'; mode "default"
+    bindsym 2 exec swaymsg 'input 1133:16467:Logitech_G900 map_to_output dp-1'; mode "default"
+    bindsym 3 exec swaymsg 'input 1133:16467:Logitech_G900 map_to_region 0 0 3840 1080'; mode "default"
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+shift+i mode $input_lock
+
+
 
 ############################################
 #
