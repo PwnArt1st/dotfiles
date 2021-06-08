@@ -1,0 +1,5 @@
+image=$HOME/.config/swaylock/bg
+ignore-empty-password
+show-failed-attempts
+grace=15
+clock

@@ -52,11 +52,10 @@ set $fg #abb2bf
 set $bg #282c34
 
 
-#output DP-3 pos 1600 0 res 1920x1080@144Hz
 output DP-2 pos 0 0
 output DP-1 pos 1920 0
-#output HDMI-A-1 pos 1600 0 res 1920x1080
-output HDMI-A-1 disable
+#output DP-1 adaptive_sync on
+#output HDMI-A-1 disable
 
 input 2652:17667:HID_0a5c:4503_Mouse pointer_accel -1
 mouse_warping output
