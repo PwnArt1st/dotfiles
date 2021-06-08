@@ -46,7 +46,7 @@ export SYSTEMD_PAGER='moar'
 # Path
 #
 
-path+=("$HOME/.local/bin")
+path+=("$HOME/.local/bin" "$HOME/go/bin")
 fpath+=("$HOME/.config/zsh/func")
 
 {% if yadm.os == "Linux" %}
