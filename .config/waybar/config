@@ -33,6 +33,7 @@
     },
     "custom/window": {
         "exec":"$HOME/.config/waybar/window.sh",
+        "tooltip": false,
         "exec-on-event": false
     },
     "idle_inhibitor": {
@@ -59,20 +60,21 @@
     "memory": {
         "format": " {used:0.1f}GB",
         "interval": 3,
+        "tooltip": false,
         "states": {
             "warning": 65,
             "critical": 85
         }
     },
     "custom/temperature#cpu": {
-        "exec": "$HOME/.config/waybar/temperature.sh /sys/class/hwmon/hwmon0/temp1_input",
+        "exec": "$HOME/.config/waybar/temperature.sh /sys/devices/platform/coretemp.0/hwmon/*/temp1_input",
         "interval": 3,
         "exec-on-event": false,
         "return-type": "json",
         "format": " {}°"
     },
     "custom/temperature#gpu": {
-        "exec": "$HOME/.config/waybar/temperature.sh /sys/class/hwmon/hwmon1/temp1_input",
+        "exec": "$HOME/.config/waybar/temperature.sh /sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0/0000:02:00.0/0000:03:00.0/hwmon/*/temp1_input",
         "interval": 3,
         "exec-on-event": false,
         "return-type": "json",
@@ -102,6 +104,7 @@
         }
     },
     "clock": {
-        "format": " {:%d/%m/%g %r}"
+        "format": " {:%d/%m/%g %r}",
+        "tooltip": false
     }
 }

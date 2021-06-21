@@ -13,7 +13,7 @@ window#waybar {
 
 #workspaces button {
     background-color: #282c34;
-    padding: 0 6;
+    padding: 0px 6px;
     margin: 0;
     min-width: 0;
 }
@@ -38,7 +38,7 @@ window#waybar {
 }
 
 #clock, #battery, #cpu, #memory, #disk, #temperature, #backlight, #network, #pulseaudio, #custom-media, #tray, #mode, #idle_inhibitor, #mpd, #custom-temperature, #custom-pulse, #custom-window {
-    padding: 1 4;
+    padding: 1px 4px;
     color: #EBDBB2;
     background: #282828;
 }
