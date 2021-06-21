@@ -2,10 +2,13 @@
 bgdir="$HOME/Pictures/Desktop"
 
 while true; do
-	[ -n "$SWAYSOCK" ]
 	bgn="$(ls $bgdir | shuf -n 1)"
 	img="$bgdir/$bgn"
-	swaymsg -s "$SWAYSOCK" output "*" bg "$img" fill
+	
+	swaybg -i $img &
+	nextpid=$!
+	if [ -n "$oldpid" ]; then kill $oldpid; fi
+	oldpid=$nextpid
 	rm "$HOME/.config/swaylock/bg"
 	ln -s "$img" "$HOME/.config/swaylock/bg"
 	sleep 60m

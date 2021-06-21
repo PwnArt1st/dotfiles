@@ -15,22 +15,21 @@ exec_always "hash dbus-update-activation-environment 2>/dev/null; \
 exec_always autotiling    
 
 
-exec --no-startup-id polkit-dumb-agent
-exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=pkcs11,ssh
-exec --no-startup-id /usr/lib/geoclue-2.0/demos/agent
-exec --no-startup-id mako
-exec --no-startup-id ~/.config/sway/bg.sh
-exec --no-startup-id aria2c --enable-rpc --rpc-allow-origin-all --rpc-listen-all=true -l $HOME/.aria2c.log --quiet --dir=$HOME/Downloads/
-exec --no-startup-id wayvnc
-exec --no-startup-id thunar --daemon
-exec --no-startup-id steam-native -silent %U 
-exec --no-startup-id discord-canary --start-minimized
-exec --no-startup-id telegram-desktop -startintray
-#exec --no-startup-id swayidle timeout 300 'swaylock'
-exec --no-startup-id gammastep-indicator
-exec --no-startup-id 'nm-applet --indicator'
-exec --no-startup-id 'foot --server'
-exec --no-stratup-id pulseeffects --gapplication-service
+exec systemctl --user import-environment && gnome-keyring-daemon --components=ssh\,secrets\,pkcs11 --start
+exec /usr/lib/geoclue-2.0/demos/agent
+exec mako
+exec wl-paste -t text --watch clipman store
+exec ~/.config/sway/bg.sh
+exec aria2c --enable-rpc --rpc-allow-origin-all --rpc-listen-all=true -l $HOME/.aria2c.log --quiet --dir=$HOME/Downloads/
+exec wayvnc
+exec thunar --daemon
+exec steam-native -silent %U 
+exec discord-canary --start-minimized
+exec telegram-desktop -startintray
+#exec swayidle timeout 300 'swaylock'
+exec gammastep-indicator
+exec 'nm-applet --indicator'
+exec 'foot --server'
 
 exec xrandr --output XWAYLAND0 --primary
 
@@ -39,13 +38,14 @@ input * xkb_numlock enable
 set $mod Mod4
 set $term footclient
 set $browser firefox
-#set $menu BEMENU_BACKEND=wayland j4-dmenu-desktop --dmenu="bemenu -i" --term $term --usage-log=$HOME/.config/j4-dmenu-desktop.log --no-generic
 set $menu j4-dmenu-desktop --usage-log="$HOME/.config/j4-dmenu-desktop.log" --no-generic --dmenu "rofi -no-sort -dmenu -i -p ''"
 
+bindsym $mod+c exec clipman pick -t rofi
 
 default_border none
 gaps outer 10
 gaps inner 20
+smart_gaps on
 font pango:Hack 10
 
 set $fg #abb2bf
@@ -57,7 +57,8 @@ output DP-1 pos 1920 0
 #output DP-1 adaptive_sync on
 #output HDMI-A-1 disable
 
-input 2652:17667:HID_0a5c:4503_Mouse pointer_accel -1
+input 1133:16467:Logitech_G900 pointer_accel -1
+input 1133:49281:Logitech_Gaming_Mouse_G900 pointer_accel -1
 mouse_warping output
 ############################################
 #
@@ -71,40 +72,44 @@ bindsym $mod+Shift+q kill
 bindsym mod1+Shift+q kill
 
 # terminal
-bindsym $mod+Return exec --no-startup-id $term
+bindsym $mod+Return exec $term
 
 # dropdown terminal
-#bindsym Control+grave exec --no-startup-id tdrop -w 100% -h 40% -a -m $term
-bindsym Control+grave exec --no-startup-id i3-quickterm shell
+#bindsym Control+grave exec tdrop -w 100% -h 40% -a -m $term
+bindsym Control+grave exec i3-quickterm shell
 
 # browser
-bindsym $mod+Shift+Return exec --no-startup-id $browser
+bindsym $mod+Shift+Return exec $browser
 
 # file manager
-bindsym $mod+mod1+Return exec --no-startup-id thunar
+bindsym $mod+mod1+Return exec thunar
 
 # menu
-bindsym $mod+space exec --no-startup-id $menu
-bindsym mod1+space exec --no-startup-id $menu
+bindsym $mod+space exec $menu
+bindsym mod1+space exec $menu
 
 # calc
-bindsym $mod+equal exec --no-startup-id =
+bindsym $mod+equal exec =
 
 # bitwarden
-#bindsym $mod+z exec --no-startup-id bwmenu -C
-bindsym $mod+z exec --no-startup-id  bitwarden-dmenu --dmenu-args='-i -p ' --dmenu-pswd-args='-password' --session-timeout 900 --clear-clipboard 60 --sync-vault-after 900
+#bindsym $mod+z exec bwmenu -C
+bindsym $mod+z exec bitwarden-dmenu --dmenu-args='-i -p ' --dmenu-pswd-args='-password' --session-timeout 900 --clear-clipboard 60 --sync-vault-after 3600 --on-error 'xargs notify-send --urgency=low'C
 
 # network
-bindsym $mod+n exec --no-startup-id networkmanager_dmenu
+bindsym $mod+n exec networkmanager_dmenu
 
 # audio
-bindsym $mod+a exec --no-startup-id ~/.config/i3/dmenu_pavucontrol.sh
+bindsym $mod+a exec ~/.config/i3/dmenu_pavucontrol.sh
 
 # emoji
 bindsym $mod+j exec ~/.config/i3/emojipicker.sh
 
 
 bindsym Control+Space exec makoctl dismiss
+bindsym Control+Shift+Space exec makoctl dismiss -a
+bindsym Control+Shift+Grave exec makoctl restore
+bindsym Control+Shift+Period exec makoctl menu dmenu
+bindsym Control+Shift+r exed makoctl reload
 
 
 ############################################
@@ -191,8 +196,7 @@ bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 
 # reload the configuration file
-bindsym $mod+Shift+c reload
-bindsym $mod+Shift+r restart
+bindsym $mod+Shift+r reload
 
 
 bindsym Control+Mod1+Left workspace prev
@@ -209,9 +213,9 @@ bindsym Control+Mod1+Right workspace next
 set $power_control "[l]ock log[o]ut [r]eboot [p]oweroff"
 mode  $power_control {
     bindsym l exec swaylock; mode "default"
-    bindsym o exec swaymsg exit; mode "default"
-    bindsym r exec sudo reboot; mode "default"
-    bindsym p exec sudo poweroff; mode "default"
+    bindsym o exec exit; mode "default"
+    bindsym r exec systemctl reboot; mode "default"
+    bindsym p exec systemctl poweroff; mode "default"
 
     bindsym Return mode "default"
     bindsym Escape mode "default"
@@ -273,15 +277,16 @@ bindsym $mod+Mod1+Left resize grow width 10 px or 10 ppt
 #			Screenshots
 #
 ############################################
+set $grimshot /usr/share/sway/scripts/grimshot
 
 # Full screen
-bindsym mod1+Shift+3 exec --no-startup-id grim ~/Pictures/Screenshots/$(date +%s).png -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')
-bindsym Control+mod1+Shift+3 exec --no-startup-id -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') grim - | wl-copy --type image/png -t image/png
-bindsym Print exec --no-startup-id grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') - | wl-copy -t image/png 
+bindsym mod1+Shift+3 exec $grimshot save output ~/Pictures/Screenshots/$(date +%s).png
+bindsym Control+mod1+Shift+3 exec $grimshot copy output
+bindsym Print exec $grimshot copy output
 
 # Select
-bindsym mod1+Shift+4 exec --no-startup-id grim -g "$(slurp)"  ~/Pictures/Screenshots/$(date +%s).png
-bindsym Control+mod1+Shift+4 exec --no-startup-id grim -g "$(slurp)" - | wl-copy --type image/png
+bindsym mod1+Shift+4 exec $grimshot save area ~/Pictures/Screenshots/$(date +%s).png
+bindsym Control+mod1+Shift+4 exec $grimshot copy area
 
 
 ############################################
@@ -292,9 +297,9 @@ bindsym Control+mod1+Shift+4 exec --no-startup-id grim -g "$(slurp)" - | wl-copy
 
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle # mute sound
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5% #decrease sound volume
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle # mute sound
 
 # Media player controls
 bindsym XF86AudioPlay exec ~/.config/i3/playerctl.sh playpause
