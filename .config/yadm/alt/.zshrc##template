@@ -80,11 +80,9 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
-zstyle :plugin:history-search-multi-word reset-prompt-protect 1
+zstyle ':plugin:history-search-multi-word' reset-prompt-protect 1
 
-autoload -Uz compinit edit-command-line add-zsh-hook run-help-git run-help-ip \
-			 run-help-openssl run-help-p4 run-help-sudo run-help-svk \
-			 run-help-svn $ZSH_DIR/func/*
+autoload -Uz compinit edit-command-line add-zsh-hook $ZSH_DIR/func/*
 
 # Load and initialize the completion system ignoring insecure directories with a
 # cache time of 20 hours, so it should almost always regenerate the first time a
@@ -117,8 +115,6 @@ for file in $ZSH_DIR/func/^(*.zwc)(.); do
 	zcompare "$file"
 done
 
-exit_zsh() { exit }
-zle -N exit_zsh
 zle -N edit-command-line
 zle -N history-substring-search-up
 zle -N history-substring-search-down
@@ -135,10 +131,6 @@ done
 #
 # Aliases
 #
-
-autoload -Uz run-help
-(( ${+aliases[run-help]} )) && unalias run-help
-alias help=run-help
 
 alias ls='exa'
 alias tree='exa --tree'
@@ -207,10 +199,6 @@ bindkey -e
   bindkey -- "$keyinfo[Up]" history-substring-search-up
 [[ -n "$keyinfo[Down]" ]] && \
   bindkey -- "$keyinfo[Down]" history-substring-search-down
-
-# make ^d exit work
-[[ -n "$keyinfo[Control]" ]] && \
-  bindkey -- "$keyinfo[Control]D" exit_zsh
 
 # ^left ^right word movement
 [[ -n "$keyinfo[Control-Right]" ]] && \
