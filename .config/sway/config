@@ -30,10 +30,12 @@ exec telegram-desktop -startintray
 exec gammastep-indicator
 exec 'nm-applet --indicator'
 exec 'foot --server'
+exec onedrive_tray
 
 exec xrandr --output XWAYLAND0 --primary
 
-input * xkb_numlock enable
+input 1133:49971:Logitech_Gaming_Keyboard_G610 xkb_numlock enable
+input 1133:49971:Logitech_Gaming_Keyboard_G610_Keyboard xkb_numlock enable
 
 set $mod Mod4
 set $term footclient
@@ -213,7 +215,7 @@ bindsym Control+Mod1+Right workspace next
 set $power_control "[l]ock log[o]ut [r]eboot [p]oweroff"
 mode  $power_control {
     bindsym l exec swaylock; mode "default"
-    bindsym o exec exit; mode "default"
+    bindsym o exec swaymsg exit; mode "default"
     bindsym r exec systemctl reboot; mode "default"
     bindsym p exec systemctl poweroff; mode "default"
 
