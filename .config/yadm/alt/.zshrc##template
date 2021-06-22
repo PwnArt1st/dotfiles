@@ -136,6 +136,7 @@ alias ls='exa'
 alias tree='exa --tree'
 alias nano='micro'
 alias cat='bat'
+alias grep='rg -uuu'
 
 if [ -z ${DISPLAY+x} ] ; then
 	alias gpg="gpg --pinentry-mode loopback "
