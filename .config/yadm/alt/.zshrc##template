@@ -68,7 +68,6 @@ fpath+=("$HOMEBREW_PREFIX/share/zsh/site-functions")
 # Options
 #
 
-bindkey -e
 setopt sharehistory autocd extendedglob append_history correct \
 	   hist_ignore_all_dups hist_verify hist_ignore_space
 
@@ -162,12 +161,83 @@ alias whichpkg="pacman -Qo"
 #
 # Bindings
 #
+typeset -g -A keyinfo
+keyinfo=(
+  'Control'         '\C-'
+  'Escape'          '\e'
+  'Meta'            '\M-'
+  'F1'              "$terminfo[kf1]"
+  'F2'              "$terminfo[kf2]"
+  'F3'              "$terminfo[kf3]"
+  'F4'              "$terminfo[kf4]"
+  'F5'              "$terminfo[kf5]"
+  'F6'              "$terminfo[kf6]"
+  'F7'              "$terminfo[kf7]"
+  'F8'              "$terminfo[kf8]"
+  'F9'              "$terminfo[kf9]"
+  'F10'             "$terminfo[kf10]"
+  'F11'             "$terminfo[kf11]"
+  'F12'             "$terminfo[kf12]"
+  'Backspace'       "$terminfo[kbs]"
+  'Insert'          "$terminfo[kich1]"
+  'Home'            "$terminfo[khome]"
+  'PageUp'          "$terminfo[kpp]"
+  'Delete'          "$terminfo[kdch1]"
+  'End'             "$terminfo[kend]"
+  'PageDown'        "$terminfo[knp]"
+  'Up'              "$terminfo[kcuu1]"
+  'Left'            "$terminfo[kcub1]"
+  'Down'            "$terminfo[kcud1]"
+  'Right'           "$terminfo[kcuf1]"
+  'Control-Left'    "$terminfo[kLFT5]"
+  'Control-Right'   "$terminfo[kRIT5]"
+  'BackTab'         "$terminfo[kcbt]"
+)
 
-bindkey '^X^e' edit-command-line
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-bindkey '^D' exit_zsh
 
+# emacs bindings
+bindkey -e
+
+# ^x ^e: open commandline in editor
+[[ -n "$keyinfo[Control]" ]] && \
+  bindkey -- "$keyinfo[Control]X$keyinfo[Control]E" edit-command-line
+
+# up/down history search
+[[ -n "$keyinfo[Up]" ]] && \
+  bindkey -- "$keyinfo[Up]" history-substring-search-up
+[[ -n "$keyinfo[Down]" ]] && \
+  bindkey -- "$keyinfo[Down]" history-substring-search-down
+
+# make ^d exit work
+[[ -n "$keyinfo[Control]" ]] && \
+  bindkey -- "$keyinfo[Control]D" exit_zsh
+
+# ^left ^right word movement
+[[ -n "$keyinfo[Control-Right]" ]] && \
+  bindkey -- "$keyinfo[Control]$keyinfo[Control-Right]" forward-word
+[[ -n "$keyinfo[Control-Left]" ]] && \
+  bindkey -- "$keyinfo[Control]$keyinfo[Control-Left]" backward-word
+
+
+# home and end
+[[ -n "$keyinfo[Home]" ]] && \
+  bindkey -- "$keyinfo[Home]" beginning-of-line
+[[ -n "$keyinfo[End]" ]] && \
+  bindkey -- "$keyinfo[End]" end-of-line
+    
+# delete
+[[ -n "$keyinfo[Delete]" ]] && \
+  bindkey -- "$keyinfo[Delete]" delete-char
+
+# Finally, make sure the terminal is in application mode, when zle is
+# active. Only then are the values from $terminfo valid.
+if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
+	autoload -Uz add-zle-hook-widget
+	function zle_application_mode_start { echoti smkx }
+	function zle_application_mode_stop { echoti rmkx }
+	add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
+	add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
+fi
 
 #
 # rbenv
