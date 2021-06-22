@@ -37,7 +37,7 @@ window#waybar {
     padding: 0;
 }
 
-#clock, #battery, #cpu, #memory, #disk, #temperature, #backlight, #network, #pulseaudio, #custom-media, #tray, #mode, #idle_inhibitor, #mpd, #custom-temperature, #custom-pulse, #custom-window {
+#clock, #battery, #cpu, #memory, #disk, #temperature, #backlight, #network, #pulseaudio, #custom-media, #tray, #mode, #idle_inhibitor, #mpd, #custom-temperature, #custom-pulse, #custom-window, #custom-timew {
     padding: 1px 4px;
     color: #EBDBB2;
     background: #282828;
@@ -65,4 +65,15 @@ window#waybar {
 
 #custom-temperature.critical, #cpu.critical, #memory.critical {
     background: #cc241d;
+}
+
+#custom-timew.running {
+    background: #d3869b;
+    color: #282c34; 
+}
+
+#custom-timew.stopped {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
 }

@@ -17,6 +17,7 @@
         "custom/temperature#gpu",
         "network",
         "custom/pulse",
+        "custom/timew",
         "clock",
         "tray"
     ],
@@ -102,6 +103,18 @@
             ],
             "muted": ""
         }
+    },
+    "custom/timew": {
+        "exec":"$HOME/.config/waybar/timew.sh",
+        "return-type": "json",
+        "interval": 3,
+        "tooltip": false,
+        "exec-on-event": false,
+        "format-icons": {
+            "running": "",
+            "stopped": ""
+        },
+        "format": "{icon}{}"
     },
     "clock": {
         "format": " {:%d/%m/%g %r}",
