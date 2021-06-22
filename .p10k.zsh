@@ -34,8 +34,12 @@
   	context
     # os_icon               # os identifier
     dir                     # current directory
+    package
+    virtualenv
+    rbenv
     vcs                     # git status
     status
+    command_execution_time
     background_jobs
     # prompt_char           # prompt symbol
   )
@@ -276,7 +280,7 @@
   # opening a directory in the file manager simply by clicking the link.
   # Can also be handy when the directory is shortened, as it allows you to see
   # the full directory that was used in previous commands.
-  typeset -g POWERLEVEL9K_DIR_HYPERLINK=false
+  typeset -g POWERLEVEL9K_DIR_HYPERLINK=true
 
   # Enable special styling for non-writable directories. See POWERLEVEL9K_LOCK_ICON and
   # POWERLEVEL9K_DIR_CLASSES below.
@@ -1587,7 +1591,7 @@
   # If set to true, time will update when you hit enter. This way prompts for the past
   # commands will contain the start times of their commands as opposed to the default
   # behavior where they contain the end times of their preceding commands.
-  typeset -g POWERLEVEL9K_TIME_UPDATE_ON_COMMAND=false
+  typeset -g POWERLEVEL9K_TIME_UPDATE_ON_COMMAND=true
   # Custom icon.
   typeset -g POWERLEVEL9K_TIME_VISUAL_IDENTIFIER_EXPANSION=
   # Custom prefix.
