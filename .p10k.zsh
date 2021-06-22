@@ -32,6 +32,7 @@
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
   	time
   	context
+  	timewarrior
     # os_icon               # os identifier
     dir                     # current directory
     package
