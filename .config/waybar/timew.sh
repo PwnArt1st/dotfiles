@@ -1,6 +1,6 @@
 #! /bin/bash
 task=$(timew | grep Tracking | cut -d " " -f 2,3)
-if [ ! -z ${task+x} ]; then
+if [ ${#task} -ge 1 ]; then
 	class="running"
 else
 	class="stopped"
