@@ -82,7 +82,11 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 zstyle ':plugin:history-search-multi-word' reset-prompt-protect 1
 
-autoload -Uz compinit edit-command-line add-zsh-hook $ZSH_DIR/func/*
+zle -N edit-command-line
+zle -N history-substring-search-up
+zle -N history-substring-search-down
+
+autoload -Uz compinit edit-command-line add-zsh-hook add-zle-hook-widget $ZSH_DIR/func/*
 
 # Load and initialize the completion system ignoring insecure directories with a
 # cache time of 20 hours, so it should almost always regenerate the first time a
@@ -95,30 +99,11 @@ else
 fi
 unset _comp_files
 
-# zcompile .zshrc
-zcompare ${ZDOTDIR:-${HOME}}/.zshrc
+ZSH_FILES=("${ZDOTDIR:-${HOME}}/.zshrc" "${ZDOTDIR:-${HOME}}/.zcompdump" \
+           "${ZDOTDIR:-${HOME}}/.p10k.zsh" "$ZSH_DIR"/**/*.zsh "$ZSH_DIR"/func/^(*.zwc)(.) \
+           "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh")
 
-# zcompile the completion cache
-zcompare ${ZDOTDIR:-${HOME}}/.zcompdump
-
-# zcompile p10k config
-zcompare ${ZDOTDIR:-${HOME}}/.p10k.zsh
-zcompare "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-
-# zcompile sourced scripts
-for file in $ZSH_DIR/**/*.zsh; do
-	zcompare "$file"
-done
-
-# zcompile autoloaded functions
-for file in $ZSH_DIR/func/^(*.zwc)(.); do
-	zcompare "$file"
-done
-
-zle -N edit-command-line
-zle -N history-substring-search-up
-zle -N history-substring-search-down
-
+zcompare ${ZSH_FILES[*]}
 
 #
 # Sources
@@ -206,7 +191,6 @@ bindkey -e
 [[ -n "$keyinfo[Control-Left]" ]] && \
   bindkey -- "$keyinfo[Control]$keyinfo[Control-Left]" backward-word
 
-
 # home and end
 [[ -n "$keyinfo[Home]" ]] && \
   bindkey -- "$keyinfo[Home]" beginning-of-line
@@ -217,10 +201,10 @@ bindkey -e
 [[ -n "$keyinfo[Delete]" ]] && \
   bindkey -- "$keyinfo[Delete]" delete-char
 
+
 # Finally, make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.
 if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
-	autoload -Uz add-zle-hook-widget
 	function zle_application_mode_start { echoti smkx }
 	function zle_application_mode_stop { echoti rmkx }
 	add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
@@ -251,6 +235,9 @@ fi
 
 {% endif %}
 
+#
+# Source p10k config
+#
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
