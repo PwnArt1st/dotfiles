@@ -13,12 +13,11 @@ fi
 # Variables
 #
 
-HISTFILE=~/.histfile
+HISTFILE="$HOME/.histfile"
 HISTSIZE=1000
 SAVEHIST=10000
-ZSH_AUTOSUGGEST_USE_ASYNC=1
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-ZSH_DIR=$HOME/.config/zsh
+ZSH_DIR="$HOME/.config/zsh"
 ZSH_PLUGS=("powerlevel10k/powerlevel10k.zsh-theme" "zsh-lazyload/zsh-lazyload.zsh" \
 		   "fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" \
 		   "zsh-autosuggestions/zsh-autosuggestions.zsh" \
@@ -27,18 +26,17 @@ ZSH_PLUGS=("powerlevel10k/powerlevel10k.zsh-theme" "zsh-lazyload/zsh-lazyload.zs
 		   "zsh-history-substring-search/zsh-history-substring-search.zsh" \
 		   "fzf-tab/fzf-tab.plugin.zsh" "forgit/forgit.plugin.zsh")
 
-export EDITOR=micro
-export GIT_EDITOR=micro
-export RUSTC_WRAPPER=sccache
-export GPG_TTY=$(tty)
+export EDITOR="micro"
+export GIT_EDITOR="micro"
+export RUSTC_WRAPPER="sccache"
+export GPG_TTY="$(tty)"
 export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden"
 
 {% if yadm.os == "Linux" %}
 export WINEESYNC=1
 export WINEFSYNC=1
-export PAGER='moar'
-export SYSTEMD_LESS='FRSMK'
-export SYSTEMD_PAGER='moar'
+export PAGER="moar"
+export SYSTEMD_LESS="FRSMK"
 {% endif %}
 
 
@@ -50,7 +48,7 @@ path+=("$HOME/.local/bin" "$HOME/go/bin")
 fpath+=("$HOME/.config/zsh/func")
 
 {% if yadm.os == "Linux" %}
-path+=('/usr/lib/ccache/bin/')
+path+=("/usr/lib/ccache/bin/")
 {% endif %}
 
 {% if yadm.os == "Darwin" %}
@@ -86,7 +84,7 @@ zle -N edit-command-line
 zle -N history-substring-search-up
 zle -N history-substring-search-down
 
-autoload -Uz compinit edit-command-line add-zsh-hook add-zle-hook-widget $ZSH_DIR/func/*
+autoload -Uz compinit edit-command-line add-zsh-hook add-zle-hook-widget "$ZSH_DIR/func/"*
 
 # Load and initialize the completion system ignoring insecure directories with a
 # cache time of 20 hours, so it should almost always regenerate the first time a
@@ -100,7 +98,7 @@ fi
 unset _comp_files
 
 ZSH_FILES=("${ZDOTDIR:-${HOME}}/.zshrc" "${ZDOTDIR:-${HOME}}/.zcompdump" \
-           "${ZDOTDIR:-${HOME}}/.p10k.zsh" "$ZSH_DIR"/**/*.zsh "$ZSH_DIR"/func/^(*.zwc)(.) \
+           "${ZDOTDIR:-${HOME}}/.p10k.zsh" "$ZSH_DIR"/**/*.zsh "$ZSH_DIR/func/"^(*.zwc)(.) \
            "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh")
 
 zcompare ${ZSH_FILES[*]}
@@ -117,20 +115,20 @@ done
 # Aliases
 #
 
-alias ls='exa'
-alias tree='exa --tree'
-alias nano='micro'
-alias cat='bat'
+alias ls="exa"
+alias tree="exa --tree"
+alias nano="micro"
+alias cat="bat"
 
 if [ -z ${DISPLAY+x} ] ; then
 	alias gpg="gpg --pinentry-mode loopback "
 fi
 
 {% if yadm.os == "Linux" %}
-alias cp='cp --reflink=auto'
+alias cp="cp --reflink=auto"
 alias tkg="bash $HOME/git/tkg/update.sh"
 alias copy="xclip -selection c"
-alias yay='paru'
+alias yay="paru"
 alias whichpkg="pacman -Qo"
 {% endif %}
 
