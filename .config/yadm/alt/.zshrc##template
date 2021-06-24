@@ -21,7 +21,7 @@ ZSH_DIR="$HOME/.config/zsh"
 ZSH_PLUGS=("powerlevel10k/powerlevel10k.zsh-theme" "zsh-lazyload/zsh-lazyload.zsh" \
 		   "fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" \
 		   "zsh-autosuggestions/zsh-autosuggestions.zsh" \
-		   "zsh-completions/zsh-completions.plugin.zsh" "zsh-z/zsh-z.plugin.zsh" \
+		   "zsh-completions/zsh-completions.plugin.zsh" \
 		   "history-search-multi-word/history-search-multi-word.plugin.zsh" \
 		   "zsh-history-substring-search/zsh-history-substring-search.zsh" \
 		   "fzf-tab/fzf-tab.plugin.zsh" "forgit/forgit.plugin.zsh")
@@ -110,6 +110,7 @@ zcompare ${ZSH_FILES[*]}
 for p in $ZSH_PLUGS; do
 	source "$ZSH_DIR/$p"
 done
+eval "$(zoxide init zsh)"
 
 #
 # Aliases
