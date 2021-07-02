@@ -1,0 +1,13 @@
+[Unit]
+Description=Adjust the color temperature of your screen according to your surroundings.
+Documentation=https://gitlab.com/chinstrap/gammastep
+BindsTo=sway-session.target
+Wants=geoclue.service
+After=geoclue.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/gammastep-indicator  
+
+[Install]
+WantedBy=sway-session.target

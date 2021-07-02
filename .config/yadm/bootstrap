@@ -4,7 +4,7 @@ system_type="$(uname -s)"
 
 shared_progs=(aria2 exa fd fzf git pv tealdeer tmux wget yadm zsh bat ccache sccache fd ripgrep micro zoxide)
 mac_progs=(gpg git-delta bitwarden iterm2)
-arch_progs=(moar gnupg git-delta-bin)
+arch_progs=(moar gnupg git-delta-bin sway sway-systemd geoclue2 clipman mako thunar wayvnc aria2 foot jq waybar)
 termux_progs=(man fzf pv exa fd tmux wget yadm zsh bat ripgrep micro)
 zsh_plugs=("https://github.com/Aloxaf/fzf-tab" "https://github.com/zsh-users/zsh-autosuggestions" \
            "https://github.com/zdharma/fast-syntax-highlighting" "https://github.com/zsh-users/zsh-history-substring-search"\

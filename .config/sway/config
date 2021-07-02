@@ -1,37 +1,15 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-#start apps
-exec_always .config/sway/import-gsettings.sh \
-    gtk-theme:gtk-theme-name \
-    icon-theme:gtk-icon-theme-name \
-    cursor-theme:gtk-cursor-theme-name
-    
-exec_always "hash dbus-update-activation-environment 2>/dev/null; \
-    dbus-update-activation-environment --all; \
-    dbus-update-activation-environment --systemd"
+include /etc/sway/config.d/*
 
-    
+#start apps
+
 exec_always autotiling    
 
-
-exec systemctl --user import-environment && gnome-keyring-daemon --components=ssh\,secrets\,pkcs11 --start
-exec /usr/lib/geoclue-2.0/demos/agent
-exec mako
-exec wl-paste -t text --watch clipman store
-exec ~/.config/sway/bg.sh
-exec aria2c --enable-rpc --rpc-allow-origin-all --rpc-listen-all=true -l $HOME/.aria2c.log --quiet --dir=$HOME/Downloads/
-exec wayvnc
-exec thunar --daemon
 exec steam-native -silent %U 
 exec discord-canary --start-minimized
 exec telegram-desktop -startintray
-#exec swayidle timeout 300 'swaylock'
-exec gammastep-indicator
-exec 'nm-applet --indicator'
-exec 'foot --server'
-exec onedrive_tray
-
 exec xrandr --output XWAYLAND0 --primary
 
 input 1133:49971:Logitech_Gaming_Keyboard_G610 xkb_numlock enable
@@ -45,9 +23,9 @@ set $menu j4-dmenu-desktop --usage-log="$HOME/.config/j4-dmenu-desktop.log" --no
 bindsym $mod+c exec clipman pick -t rofi
 
 default_border none
-gaps outer 10
-gaps inner 20
-smart_gaps on
+#gaps outer 0
+#gaps inner 0
+#smart_gaps on
 font pango:Hack 10
 
 set $fg #abb2bf
@@ -345,7 +323,6 @@ for_window [class="steam_app_230410"] fullscreen enable; floating enable; inhibi
 for_window [class="steam_app_253230"] fullscreen enable; floating enable; inhibit_idle focus
 for_window [title="Night in the Woods"] fullscreen enable; inhibit_idle focus
 for_window [title="Stardew Valley"] fullscreen enable; inhibit_idle focus
-for_window [title="Origin"] floating enable
 for_window [class="^Steam$" title=".* - Chat"] floating enable
 for_window [class="^Steam$" title="^Settings$"] floating enable
 for_window [class="^Steam$" title=".* - event started"] floating enable
@@ -365,28 +342,15 @@ for_window [class="^Pavucontrol$"] floating enable
 for_window [class="^Steam$" title="^Friends$"] floating enable
 for_window [class="^Steam$" title="Friends List"] floating enable
 for_window [class="^Steam$" title="Steam - News"] floating enable
-for_window [class="Wine"] floating enable
-for_window [title="Origin"] floating enable
-for_window [title="User Profile"] floating enable
-for_window [title="Tools"] floating enable
-for_window [title="History"] floating enable
-for_window [title="Layers"] floating enable
-for_window [class="^Steam$" title=".* - Chat"] floating enable
-for_window [class="^Steam$" title="^Settings$"] floating enable
-for_window [class="^Steam$" title=".* - event started"] floating enable
-for_window [class="^Steam$" title=".* CD key"] floating enable
-for_window [class="^Steam$" title="^Steam - Self Updater$"] floating enable
-for_window [class="^Steam$" title="^Screenshot Uploader$"] floating enable
-for_window [class="^Steam$" title="^Steam Guard - Computer Authorization Required$"] floating enable
-for_window [title="^Steam Keyboard$"] floating enable
+for_window [class="^Wine"] floating enable
+for_window [title="^Origin"] floating enable
+for_window [title="^User Profile"] floating enable
+for_window [title="^Tools"] floating enable
+for_window [title="^History"] floating enable
+for_window [title="^Layers"] floating enable
 for_window [class="steam_app_253230"] fullscreen enable
 for_window [class="hatintimegame.exe"] fullscreen enable
 for_window [class="HatinTimeGame.exe"] fullscreen enable
 for_window [title="Volume Control"] floating disable
 for_window [title="Microsoft Teams Notification" class="microsoft teams - preview"] floating enable
 for_window [title="Microsoft Teams Notification" class="Microsoft Teams - Preview"] floating enable 
-
-bar {
-	swaybar_command waybar
-}
-

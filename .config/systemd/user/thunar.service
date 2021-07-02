@@ -1,0 +1,11 @@
+[Unit]
+Description=Modern file manager for Xfce
+Documentation=https://docs.xfce.org/xfce/thunar/start
+BindsTo=sway-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/thunar --daemon
+
+[Install]
+WantedBy=sway-session.target

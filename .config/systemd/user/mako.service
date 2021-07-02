@@ -1,0 +1,11 @@
+[Unit]
+Description=Lightweight notification daemon for Wayland
+Documentation=https://mako-project.org
+BindsTo=sway-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/mako
+
+[Install]
+WantedBy=sway-session.target

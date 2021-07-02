@@ -1,0 +1,11 @@
+[Unit]
+Description=Applet for managing network connections
+Documentation=https://wiki.gnome.org/Projects/NetworkManager/
+BindsTo=sway-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/nm-applet --indicator
+
+[Install]
+WantedBy=sway-session.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Random background slideshow
+BindsTo=sway-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/bash %h/.config/sway/bg.sh
+
+[Install]
+WantedBy=sway-session.target

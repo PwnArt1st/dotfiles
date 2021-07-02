@@ -1,0 +1,11 @@
+[Unit]
+Description=VNC server for wlroots-based Wayland compositors
+Documentation=https://github.com/any1/wayvnc
+BindsTo=sway-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/wayvnc
+
+[Install]
+WantedBy=sway-session.target

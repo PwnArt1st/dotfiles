@@ -31,10 +31,13 @@ function main() {
     action=$1
     if [ "${action}" == "up" ]; then
         pactl set-sink-volume @DEFAULT_SINK@ +2%
+        exit
     elif [ "${action}" == "down" ]; then
         pactl set-sink-volume @DEFAULT_SINK@ -2%
+        exit
     elif [ "${action}" == "mute" ]; then
         pactl set-sink-mute @DEFAULT_SINK@ toggle
+        exit
     else
         print_output
         pactl subscribe | grep --line-buffered change | while read -r; do
@@ -42,5 +45,14 @@ function main() {
         done
     fi
 }
+
+# script_name=${BASH_SOURCE[0]}
+# for pid in $(pidof -x $script_name); do
+    # if [ $pid != $$ ]; then
+        # kill -9 $pid
+    # fi
+# done
+
+trap 'jobs -p | xargs kill' EXIT
 
 main "$@"
