@@ -66,13 +66,11 @@ def rename_workspaces(ipc):
                     continue
                 icon_tuple += (icon,)
                 
-            focus_idle = workspace.find_by_id(workspace.focus[0])
-            while focus_idle.app_id is None:
-                if len(focus_idle.focus) < 1:
-                    break
-                focus_idle = focus_idle.find_by_id(focus_idle.focus[0])
+            focus_idle=workspace.find_focused()
             if focus_idle:
-                focused_name = (focus_idle.name[:10] + '..') if len(focus_idle.name) > 10 else focus_idle.name
+                while len(focus_idle.focus) > 1:
+                    focus_idle = focus_idle.find_focused()
+                focused_name = (focus_idle.name[:15] + '..') if len(focus_idle.name) > 15 else focus_idle.name
                     
         name_parts["icons"] = "  ".join(icon_tuple) + " "
         name_parts["name"] = focused_name
