@@ -1,5 +1,5 @@
 configuration {
-	theme: ".config/rofi/dmenu.rasi";
+	theme: "/home/pie/.config/rofi/dmenu.rasi";
 	font: "Hack 10";
 	modi: "drun,run,ssh,calc";
 	show-icons: false;
