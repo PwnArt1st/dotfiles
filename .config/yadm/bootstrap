@@ -10,7 +10,7 @@ zsh_plugs=("https://github.com/Aloxaf/fzf-tab" "https://github.com/zsh-users/zsh
            "https://github.com/zdharma/fast-syntax-highlighting" "https://github.com/zsh-users/zsh-history-substring-search"\
            "https://github.com/romkatv/powerlevel10k" "https://github.com/g-plane/zsh-yarn-autocompletions" \
            "https://github.com/qoomon/zsh-lazyload" "https://github.com/wfxr/forgit" "https://github.com/zsh-users/zsh-completions "\
-           "https://github.com/zdharma/history-search-multi-word")
+           "https://github.com/zdharma/history-search-multi-word" "https://github.com/trystan2k/zsh-tab-title")
 
 if [ "$system_type" = "Darwin" ]; then
 

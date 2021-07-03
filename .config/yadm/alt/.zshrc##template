@@ -20,7 +20,7 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_DIR="$HOME/.config/zsh"
 ZSH_PLUGS=("powerlevel10k/powerlevel10k.zsh-theme" "zsh-lazyload/zsh-lazyload.zsh" \
 		   "fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" \
-		   "zsh-autosuggestions/zsh-autosuggestions.zsh" \
+		   "zsh-autosuggestions/zsh-autosuggestions.zsh" "zsh-tab-title/title.plugin.zsh" \
 		   "zsh-completions/zsh-completions.plugin.zsh" \
 		   "history-search-multi-word/history-search-multi-word.plugin.zsh" \
 		   "zsh-history-substring-search/zsh-history-substring-search.zsh" \
@@ -31,6 +31,12 @@ export GIT_EDITOR="micro"
 export RUSTC_WRAPPER="sccache"
 export GPG_TTY="$(tty)"
 export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden"
+export ZSH_TAB_TITLE_ENABLE_FULL_COMMAND=true
+export ZSH_TAB_TITLE_ADDITIONAL_TERMS="foot|alacritty"
+
+if [ -z ${SSH_TTY+x} ] && [ -z ${SSH_CONNECTION+x} ] && [ -z ${SSH_CLIENT+x} ]; then
+	ZSH_TAB_TITLE_DEFAULT_DISABLE_PREFIX=true
+fi
 
 {% if yadm.os == "Linux" %}
 export WINEESYNC=1
@@ -85,7 +91,7 @@ zle -N edit-command-line
 zle -N history-substring-search-up
 zle -N history-substring-search-down
 
-autoload -Uz compinit edit-command-line add-zsh-hook add-zle-hook-widget "$ZSH_DIR/func/"*
+autoload -Uz compinit edit-command-line add-zle-hook-widget "$ZSH_DIR/func/"*
 
 # Load and initialize the completion system ignoring insecure directories with a
 # cache time of 20 hours, so it should almost always regenerate the first time a
@@ -225,14 +231,6 @@ lazyload rbenv ruby rake bundle bundler gem irb -- 'eval "$(rbenv init -)"'
 
 trap 'rehash' USR1
 
-#
-# Terminal title hooks
-#
-
-if [[ "$TERM" == (Eterm*|alacritty*|aterm*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|tmux*|xterm*|foot*) ]]; then
-	add-zsh-hook -Uz precmd xterm_title_precmd
-	add-zsh-hook -Uz preexec xterm_title_preexec
-fi
 
 {% endif %}
 
