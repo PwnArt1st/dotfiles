@@ -1,0 +1,11 @@
+[Unit]
+Description=Official Telegram Desktop client
+Documentation=https://desktop.telegram.org/
+BindsTo=sway-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/telegram-desktop -startintray
+
+[Install]
+WantedBy=sway-session.target

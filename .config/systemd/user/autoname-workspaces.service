@@ -1,0 +1,11 @@
+[Unit]
+Description=Adds icons to the workspace name for each open window.
+Documentation=https://github.com/maximbaz/dotfiles/blob/master/bin/i3-autoname-workspaces
+PartOf=sway-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python %h/.config/sway/autoname-workspaces.py
+
+[Install]
+WantedBy=sway-session.target

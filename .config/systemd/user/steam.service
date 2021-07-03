@@ -1,0 +1,11 @@
+[Unit]
+Description=Valve's digital software delivery system
+Documentation=https://steampowered.com/
+BindsTo=sway-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/steam-native -silent %U
+
+[Install]
+WantedBy=sway-session.target

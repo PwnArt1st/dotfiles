@@ -5,11 +5,10 @@ include /etc/sway/config.d/*
 
 #start apps
 
+
 exec_always autotiling    
 
-exec steam-native -silent %U 
 exec discord-canary --start-minimized
-exec telegram-desktop -startintray
 exec xrandr --output XWAYLAND0 --primary
 
 input 1133:49971:Logitech_Gaming_Keyboard_G610 xkb_numlock enable
@@ -19,8 +18,6 @@ set $mod Mod4
 set $term footclient
 set $browser firefox
 set $menu j4-dmenu-desktop --usage-log="$HOME/.config/j4-dmenu-desktop.log" --no-generic --dmenu "rofi -no-sort -dmenu -i -p ''"
-
-bindsym $mod+c exec clipman pick -t rofi
 
 default_border none
 #gaps outer 0
@@ -84,6 +81,8 @@ bindsym $mod+a exec ~/.config/i3/dmenu_pavucontrol.sh
 # emoji
 bindsym $mod+j exec ~/.config/i3/emojipicker.sh
 
+# clipman
+bindsym $mod+c exec clipman pick -t rofi
 
 bindsym Control+Space exec makoctl dismiss
 bindsym Control+Shift+Space exec makoctl dismiss -a
