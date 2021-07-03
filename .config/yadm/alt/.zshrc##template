@@ -99,7 +99,7 @@ fi
 unset _comp_files
 
 ZSH_FILES=("${ZDOTDIR:-${HOME}}/.zshrc" "${ZDOTDIR:-${HOME}}/.zcompdump" \
-           "${ZDOTDIR:-${HOME}}/.p10k.zsh" "$ZSH_DIR"/**/*.zsh "$ZSH_DIR/func/"^(*.zwc)(.) \
+           "${ZDOTDIR:-${HOME}}/.p10k.zsh" "$ZSH_DIR"/**/*.zsh "$ZSH_DIR/func/"^*.zwc \
            "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh")
 
 zcompare ${ZSH_FILES[*]}
