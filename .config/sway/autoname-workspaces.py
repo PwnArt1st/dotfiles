@@ -58,13 +58,24 @@ def rename_workspaces(ipc):
     for workspace in ipc.get_tree().workspaces():
         name_parts = parse_workspace_name(workspace.name)
         icon_tuple = ()
+        focused_name = ""
         for w in workspace:
             if w.app_id is not None or w.window_class is not None:
                 icon = icon_for_window(w)
                 if not ARGUMENTS.duplicates and icon in icon_tuple:
                     continue
                 icon_tuple += (icon,)
+                
+            focus_idle = workspace.find_by_id(workspace.focus[0])
+            while focus_idle.app_id is None:
+                if len(focus_idle.focus) < 1:
+                    break
+                focus_idle = focus_idle.find_by_id(focus_idle.focus[0])
+            if focus_idle:
+                focused_name = (focus_idle.name[:10] + '..') if len(focus_idle.name) > 10 else focus_idle.name
+                    
         name_parts["icons"] = "  ".join(icon_tuple) + " "
+        name_parts["name"] = focused_name
         new_name = construct_workspace_name(name_parts)
         ipc.command('rename workspace "%s" to "%s"' % (workspace.name, new_name))
 
@@ -95,6 +106,9 @@ def construct_workspace_name(parts):
 
         if parts["icons"]:
             new_name += " " + parts["icons"]
+
+        if parts["name"]:
+            new_name += " " + parts["name"]
 
     return new_name
 
@@ -145,7 +159,7 @@ if __name__ == "__main__":
         signal.signal(sig, lambda signal, frame: undo_window_renaming(ipc))
 
     def window_event_handler(ipc, e):
-        if e.change in ["new", "close", "move"]:
+        if e.change in ["new", "close", "move", "focus"]:
             rename_workspaces(ipc)
 
     ipc.on("window", window_event_handler)
