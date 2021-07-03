@@ -45,11 +45,8 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # Path
 #
 
-path+=("$HOME/.local/bin" "$HOME/go/bin")
-fpath+=("$HOME/.config/zsh/func")
-
 {% if yadm.os == "Linux" %}
-path+=("/usr/lib/ccache/bin/")
+path=("/usr/lib/ccache/bin/" $path)
 {% endif %}
 
 {% if yadm.os == "Darwin" %}
@@ -61,6 +58,9 @@ manpath+=("$HOMEBREW_PREFIX/share/man")
 infopath+=("$HOMEBREW_PREFIX/share/info")
 fpath+=("$HOMEBREW_PREFIX/share/zsh/site-functions")
 {% endif %}
+
+path=("$HOME/.local/bin" "$HOME/go/bin" $path)
+fpath+=("$HOME/.config/zsh/func")
 
 
 #
