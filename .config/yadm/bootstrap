@@ -10,7 +10,7 @@ zsh_plugs=("https://github.com/Aloxaf/fzf-tab" "https://github.com/zsh-users/zsh
            "https://github.com/zdharma/fast-syntax-highlighting" "https://github.com/zsh-users/zsh-history-substring-search"\
            "https://github.com/romkatv/powerlevel10k" "https://github.com/g-plane/zsh-yarn-autocompletions" \
            "https://github.com/qoomon/zsh-lazyload" "https://github.com/wfxr/forgit" "https://github.com/zsh-users/zsh-completions "\
-           "https://github.com/zdharma/history-search-multi-word" "https://github.com/trystan2k/zsh-tab-title")
+           "https://github.com/zdharma/history-search-multi-word" "https://github.com/ibrokemypie/zsh-tab-title")
 
 if [ "$system_type" = "Darwin" ]; then
 
@@ -46,7 +46,18 @@ if [ "$system_type" = "Linux" ]; then
 fi
 
 # install tpm
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+if [ ! -d "$HOME/.tmux" ]; then mkdir "$HOME/.tmux"; fi
+if [ ! -d "$HOME/.tmux/plugins" ]; then mkdir "$HOME/.tmux/plugins"; fi
+cd "$HOME/.tmux/plugins"
+if [ -d tpm ]; then
+	cd tpm 
+	status="$(git pull)"
+	if [ "$status" != "Already up to date." ]; then
+		echo "$status"
+	fi
+else
+	git clone https://github.com/tmux-plugins/tpm
+fi
 
 for plug in ${zsh_plugs[@]}; do
 	cd "$HOME/.config/zsh"
@@ -61,7 +72,12 @@ for plug in ${zsh_plugs[@]}; do
 			echo "$status"
 		fi
 	else
-		git clone "$plug" "$plugdir" --depth=1
+		if [ "$plugdir" = "zsh-tab-title" ]; then
+			git clone "$plug" "$plugdir" --depth=1 --branch="pie"
+		else
+			git clone "$plug" "$plugdir" --depth=1
+		fi
+		
 		if [ "$plugdir" = "fzf-tab" ]; then
 			fzf_tab_updated=true
 		fi
