@@ -13,11 +13,11 @@ fi
 # Variables
 #
 
-HISTFILE="$HOME/.histfile"
+HISTFILE="${ZDOTDIR:-$HOME}/.histfile"
 HISTSIZE=10000
 SAVEHIST=100000
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-ZSH_DIR="$HOME/.config/zsh"
+ZSH_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 ZSH_PLUGS=("powerlevel10k/powerlevel10k.zsh-theme" "zsh-lazyload/zsh-lazyload.zsh" \
 		   "fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" \
 		   "zsh-autosuggestions/zsh-autosuggestions.zsh" "zsh-tab-title/title.plugin.zsh" \
@@ -25,18 +25,20 @@ ZSH_PLUGS=("powerlevel10k/powerlevel10k.zsh-theme" "zsh-lazyload/zsh-lazyload.zs
 		   "history-search-multi-word/history-search-multi-word.plugin.zsh" \
 		   "zsh-history-substring-search/zsh-history-substring-search.zsh" \
 		   "fzf-tab/fzf-tab.plugin.zsh" "forgit/forgit.plugin.zsh")
+ZSH_TAB_TITLE_ENABLE_FULL_COMMAND=true
+ZSH_TAB_TITLE_ADDITIONAL_TERMS="foot|alacritty"
+
+if [ -z ${SSH_TTY+x} ] && [ -z ${SSH_CONNECTION+x} ] && [ -z ${SSH_CLIENT+x} ]; then
+	ZSH_TAB_TITLE_DEFAULT_DISABLE_PREFIX=true
+fi
+
 
 export EDITOR="micro"
 export GIT_EDITOR="micro"
 export RUSTC_WRAPPER="sccache"
 export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden"
-export ZSH_TAB_TITLE_ENABLE_FULL_COMMAND=true
-export ZSH_TAB_TITLE_ADDITIONAL_TERMS="foot|alacritty"
 export GPG_TTY=$TTY
 
-if [ -z ${SSH_TTY+x} ] && [ -z ${SSH_CONNECTION+x} ] && [ -z ${SSH_CLIENT+x} ]; then
-	ZSH_TAB_TITLE_DEFAULT_DISABLE_PREFIX=true
-fi
 
 {% if yadm.os == "Linux" %}
 export WINEESYNC=1
@@ -66,15 +68,16 @@ fpath+=("$HOMEBREW_PREFIX/share/zsh/site-functions")
 {% endif %}
 
 path=("$HOME/.local/bin" "$HOME/go/bin" $path)
-fpath+=("$HOME/.config/zsh/func")
+fpath+=("${ZSHDIR}/func")
 
 
 #
 # Options
 #
 
-setopt sharehistory autocd extendedglob append_history correct \
-	   hist_ignore_all_dups hist_verify hist_ignore_space
+setopt sharehistory autocd extendedglob inc_append_history correct \
+	   hist_ignore_all_dups hist_verify hist_ignore_space interactive_comments \
+	   hash_cmds nullglob
 
 # The following lines were added by compinstall
 zstyle ':completion:*:git-checkout:*' sort false
@@ -91,7 +94,7 @@ zle -N edit-command-line
 zle -N history-substring-search-up
 zle -N history-substring-search-down
 
-autoload -Uz compinit edit-command-line add-zle-hook-widget "$ZSH_DIR/func/"*
+autoload -Uz compinit edit-command-line add-zle-hook-widget "${ZSH_DIR}/func/"*
 
 # Load and initialize the completion system ignoring insecure directories with a
 # cache time of 20 hours, so it should almost always regenerate the first time a
@@ -104,18 +107,18 @@ else
 fi
 unset _comp_files
 
-ZSH_FILES=("${ZDOTDIR:-${HOME}}/.zshrc" "${ZDOTDIR:-${HOME}}/.zcompdump" \
-           "${ZDOTDIR:-${HOME}}/.p10k.zsh" "$ZSH_DIR"/**/*.zsh "$ZSH_DIR/func/"^*.zwc \
+ZSH_FILES=("${ZDOTDIR:-$HOME}/.zshrc" "${ZDOTDIR:-$HOME}/.zcompdump" \
+           "${ZDOTDIR:-$HOME}/.p10k.zsh" "${ZSH_DIR}/"**/*.zsh "${ZSH_DIR}/func/"^*.zwc \
            "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh")
 
-zcompare ${ZSH_FILES[*]}
+zcompare ${ZSH_FILES}
 
 #
 # Sources
 #
 
 for p in $ZSH_PLUGS; do
-	source "$ZSH_DIR/$p"
+	source "${ZSH_DIR}/${p}"
 done
 eval "$(zoxide init zsh)"
 
@@ -238,7 +241,7 @@ trap 'rehash' USR1
 # Source p10k config
 #
 
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f "${ZDOTDIR:-$HOME}/.p10k.zsh" ]] || source "${ZDOTDIR:-$HOME}/.p10k.zsh"
 
 let "dur = $EPOCHREALTIME - $start"
 echo "Execution time: $dur seconds"
