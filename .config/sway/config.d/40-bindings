@@ -41,10 +41,10 @@ bindsym $mod+z exec DMENU_PATH=/bin/bemenu bitwarden-dmenu --dmenu-args="-p '' $
 bindsym $mod+n exec networkmanager_dmenu
 
 # audio
-bindsym $mod+a exec ~/.config/i3/dmenu_pavucontrol.sh $menu_style
+bindsym $mod+a exec $HOME/.config/sway/dmenu_pavucontrol.sh $menu_style
 
 # emoji
-bindsym $mod+j exec ~/.config/i3/emojipicker.sh $menu_style
+bindsym $mod+j exec $HOME/.config/sway/emojipicker.sh $menu_style
 
 # clipman
 bindsym $mod+c exec clipman pick -t bemenu --tool-args="$menu_style -p 'clipman:'"
@@ -184,12 +184,12 @@ bindsym $mod+Mod1+Left resize grow width 10 px or 10 ppt
 set $grimshot /usr/share/sway/scripts/grimshot
 
 # Full screen
-bindsym mod1+Shift+3 exec $grimshot save output ~/Pictures/Screenshots/$(date +%s).png
+bindsym mod1+Shift+3 exec $grimshot save output $HOME/Pictures/Screenshots/$(date +%s).png
 bindsym Control+mod1+Shift+3 exec $grimshot copy output
 bindsym Print exec $grimshot copy output
 
 # Select
-bindsym mod1+Shift+4 exec $grimshot save area ~/Pictures/Screenshots/$(date +%s).png
+bindsym mod1+Shift+4 exec $grimshot save area $HOME/Pictures/Screenshots/$(date +%s).png
 bindsym Control+mod1+Shift+4 exec $grimshot copy area
 
 
@@ -206,7 +206,7 @@ bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5% #decr
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle # mute sound
 
 # Media player controls
-bindsym XF86AudioPlay exec ~/.config/i3/playerctl.sh playpause
-bindsym XF86AudioNext exec ~/.config/i3/playerctl.sh next
-bindsym XF86AudioPrev exec ~/.config/i3/playerctl.sh prev
-bindsym XF86AudioStop exec ~/.config/i3/playerctl.sh stop
+bindsym XF86AudioPlay exec $HOME/.config/i3/playerctl.sh playpause
+bindsym XF86AudioNext exec $HOME/.config/i3/playerctl.sh next
+bindsym XF86AudioPrev exec $HOME/.config/i3/playerctl.sh prev
+bindsym XF86AudioStop exec $HOME/.config/i3/playerctl.sh stop
