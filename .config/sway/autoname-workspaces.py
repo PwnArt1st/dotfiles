@@ -28,7 +28,10 @@ WINDOW_ICONS = {
     "myxer": "",
     "pavucontrol": "",
     "blueman-manager": "",
+    "blueberry.py": "",
     "thunar": "",
+    "io.github.quodlibet.quodlibet": "",
+    "org.qbittorrent.qbittorrent": "",
 }
 
 DEFAULT_ICON = ""
@@ -66,14 +69,14 @@ def rename_workspaces(ipc):
                     continue
                 icon_tuple += (icon,)
                 
-            focus_idle=workspace.find_focused()
+            focus_idle=workspace.find_by_id(workspace.focus[0])
             if focus_idle:
-                while len(focus_idle.focus) > 1:
-                    focus_idle = focus_idle.find_focused()
-                focused_name = (focus_idle.name[:15] + '..') if len(focus_idle.name) > 15 else focus_idle.name
+                while len(focus_idle.focus) > 0:
+                    focus_idle = workspace.find_by_id(focus_idle.focus[0])
+                focused_name = (focus_idle.name[:15] + '..') if focus_idle.name and len(focus_idle.name) > 15 else focus_idle.name
                     
-        name_parts["icons"] = "  ".join(icon_tuple) + " "
-        name_parts["name"] = focused_name
+        name_parts["icons"] = " ".join(icon_tuple) + " "
+        name_parts["title"] = focused_name
         new_name = construct_workspace_name(name_parts)
         ipc.command('rename workspace "%s" to "%s"' % (workspace.name, new_name))
 
@@ -82,6 +85,7 @@ def undo_window_renaming(ipc):
     for workspace in ipc.get_tree().workspaces():
         name_parts = parse_workspace_name(workspace.name)
         name_parts["icons"] = None
+        name_parts["title"] = None
         new_name = construct_workspace_name(name_parts)
         ipc.command('rename workspace "%s" to "%s"' % (workspace.name, new_name))
     ipc.main_quit()
@@ -96,18 +100,17 @@ def parse_workspace_name(name):
 
 def construct_workspace_name(parts):
     new_name = str(parts["num"])
-    if parts["shortname"] or parts["icons"]:
+    if (parts["title"] and len(parts["title"]) > 0) or (parts["icons"] and len(parts["icons"]) > 1):
         new_name += ":"
 
         if parts["shortname"]:
             new_name += parts["shortname"]
 
-        if parts["icons"]:
+        if parts["icons"] and len(parts["icons"]) > 1:
             new_name += " " + parts["icons"]
 
-        if parts["name"]:
-            new_name += " " + parts["name"]
-
+        if parts["title"] and len(parts["title"]) > 0:
+            new_name += parts["title"]
     return new_name
 
 
@@ -157,7 +160,7 @@ if __name__ == "__main__":
         signal.signal(sig, lambda signal, frame: undo_window_renaming(ipc))
 
     def window_event_handler(ipc, e):
-        if e.change in ["new", "close", "move", "focus"]:
+        if e.change in ["new", "close", "move", "focus", "title"]:
             rename_workspaces(ipc)
 
     ipc.on("window", window_event_handler)

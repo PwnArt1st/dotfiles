@@ -5,7 +5,7 @@ PartOf=sway-session.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python %h/.config/sway/autoname-workspaces.py
+ExecStart=/usr/bin/python %h/.config/sway/autoname-workspaces.py -L
 
 [Install]
 WantedBy=sway-session.target
