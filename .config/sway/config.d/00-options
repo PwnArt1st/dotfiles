@@ -1,0 +1,27 @@
+# $HOME/.config/sway/config.d/options
+# Sway options and settings
+
+set $mod Mod4
+set $term footclient
+set $browser firefox
+set $menu_style -i -n --fn 'Hack 10' --hb '#005577' --hf '#eeeeee' --nb '#222222' --nf '#bbbbbb' --fb '#222222' --ff '#bbbbbb' --tb '#222222' --tf '#bbbbbb' -l 0
+set $menu j4-dmenu-desktop --usage-log="$HOME/.config/j4-dmenu-desktop.log" --no-generic --dmenu "bemenu -p '' $menu_style"
+
+default_border none
+#gaps outer 0
+#gaps inner 0
+#smart_gaps on
+font pango:Hack 10
+
+set $fg #abb2bf
+set $bg #282c34
+
+
+# class                 border  backgr. text indicator child_border
+client.focused          $bg     $bg     $fg  $bg       $bg
+client.focused_inactive $bg     $bg     $fg  $bg       $bg
+client.unfocused        $bg     $bg     $fg  $bg       $bg
+client.urgent           $bg     $bg     $fg  $bg       $bg
+client.placeholder      $bg     $bg     $fg  $bg       $bg
+
+client.background       $bg

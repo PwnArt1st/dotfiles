@@ -1,0 +1,8 @@
+# $HOME/.config/sway/config.d/input
+# Sway input configuration
+
+input 1133:49971:Logitech_Gaming_Keyboard_G610 xkb_numlock enable
+input 1133:49971:Logitech_Gaming_Keyboard_G610_Keyboard xkb_numlock enable
+input 1133:16467:Logitech_G900 pointer_accel -1
+input 1133:49281:Logitech_Gaming_Mouse_G900 pointer_accel -1
+mouse_warping output

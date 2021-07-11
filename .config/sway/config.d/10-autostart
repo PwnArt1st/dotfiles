@@ -1,0 +1,7 @@
+# $HOME/.config/sway/config.d/autostart
+# Startup pgrograms not managed by systemd
+
+exec_always autotiling    
+
+exec discord-canary --start-minimized
+exec xrandr --output XWAYLAND0 --primary

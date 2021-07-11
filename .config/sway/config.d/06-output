@@ -1,0 +1,7 @@
+# $HOME/.config/sway/config.d/output
+# Sway output configuration
+
+output DP-2 pos 0 0
+output DP-1 pos 1920 0
+#output DP-1 adaptive_sync on
+#output HDMI-A-1 disable

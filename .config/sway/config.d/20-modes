@@ -1,0 +1,56 @@
+# $HOME/.config/sway/config.d/modes
+# Sway modes configuration
+
+############################################
+#
+#			Power options
+#
+############################################
+
+
+set $power_control "[l]ock log[o]ut [r]eboot [p]oweroff"
+mode  $power_control {
+    bindsym l exec swaylock; mode "default"
+    bindsym o exec swaymsg exit; mode "default"
+    bindsym r exec systemctl reboot; mode "default"
+    bindsym p exec systemctl poweroff; mode "default"
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+############################################
+#
+#			Input locking
+#
+############################################
+
+
+set $input_lock "[1]left [2]right [3]both"
+mode  $input_lock {
+    bindsym 1 exec swaymsg 'input 1133:16467:Logitech_G900 map_to_output dp-2'; mode "default"
+    bindsym 2 exec swaymsg 'input 1133:16467:Logitech_G900 map_to_output dp-1'; mode "default"
+    bindsym 3 exec swaymsg 'input 1133:16467:Logitech_G900 map_to_region 0 0 3840 1080'; mode "default"
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+############################################
+#
+#			Resize
+#
+############################################
+
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}

@@ -1,0 +1,52 @@
+# $HOME/.config/sway/config.d/rules
+# Sway window rules
+
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+for_window [window_role="About"] floating enable
+for_window [class="^Pavucontrol$"] floating enable
+for_window [class="nmguish"] floating enable
+for_window [class="^Steam$" title="^Friends$"] floating enable
+for_window [class="^Steam$" title="Friends List"] floating enable
+for_window [class="^Steam$" title="Steam - News"] floating enable
+for_window [class="Wine"] fullscreen enable; inhibit_idle focus
+for_window [class="steam_app_49520"] fullscreen enable; floating enable; inhibit_idle focus
+for_window [class="steam_app_230410"] fullscreen enable; floating enable; inhibit_idle focus
+for_window [class="steam_app_253230"] fullscreen enable; floating enable; inhibit_idle focus
+for_window [title="Night in the Woods"] fullscreen enable; inhibit_idle focus
+for_window [title="Stardew Valley"] fullscreen enable; inhibit_idle focus
+for_window [class="^Steam$" title=".* - Chat"] floating enable
+for_window [class="^Steam$" title="^Settings$"] floating enable
+for_window [class="^Steam$" title=".* - event started"] floating enable
+for_window [class="^Steam$" title=".* CD key"] floating enable
+for_window [class="^Steam$" title="^Steam - Self Updater$"] floating enable
+for_window [class="^Steam$" title="^Screenshot Uploader$"] floating enable
+for_window [class="^Steam$" title="^Steam Guard - Computer Authorization Required$"] floating enable
+for_window [title="^Steam Keyboard$"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+for_window [window_role="About"] floating enable
+for_window [class="^Pavucontrol$"] floating enable
+for_window [class="^Steam$" title="^Friends$"] floating enable
+for_window [class="^Steam$" title="Friends List"] floating enable
+for_window [class="^Steam$" title="Steam - News"] floating enable
+for_window [class="^Wine"] floating enable
+for_window [title="^Origin"] floating enable
+for_window [title="^User Profile"] floating enable
+for_window [title="^Tools"] floating enable
+for_window [title="^History"] floating enable
+for_window [title="^Layers"] floating enable
+for_window [class="steam_app_253230"] fullscreen enable
+for_window [class="hatintimegame.exe"] fullscreen enable
+for_window [class="HatinTimeGame.exe"] fullscreen enable
+for_window [title="Volume Control"] floating disable
+for_window [title="Microsoft Teams Notification" class="microsoft teams - preview"] floating enable
+for_window [title="Microsoft Teams Notification" class="Microsoft Teams - Preview"] floating enable 
