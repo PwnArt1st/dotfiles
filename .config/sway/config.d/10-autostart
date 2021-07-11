@@ -2,6 +2,6 @@
 # Startup pgrograms not managed by systemd
 
 exec_always autotiling    
-
+exec gnome-keyring-daemon --start
 exec discord-canary --start-minimized
 exec xrandr --output XWAYLAND0 --primary

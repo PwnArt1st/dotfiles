@@ -29,10 +29,10 @@ ZSH_PLUGS=("powerlevel10k/powerlevel10k.zsh-theme" "zsh-lazyload/zsh-lazyload.zs
 export EDITOR="micro"
 export GIT_EDITOR="micro"
 export RUSTC_WRAPPER="sccache"
-export GPG_TTY="$(tty)"
 export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden"
 export ZSH_TAB_TITLE_ENABLE_FULL_COMMAND=true
 export ZSH_TAB_TITLE_ADDITIONAL_TERMS="foot|alacritty"
+export GPG_TTY=$TTY
 
 if [ -z ${SSH_TTY+x} ] && [ -z ${SSH_CONNECTION+x} ] && [ -z ${SSH_CLIENT+x} ]; then
 	ZSH_TAB_TITLE_DEFAULT_DISABLE_PREFIX=true
@@ -44,10 +44,6 @@ export WINEFSYNC=1
 export PAGER="moar"
 export SYSTEMD_LESS="FRSMK"
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-
-if [ -z ${SSH_AUTH_SOCK+x} ]; then
-	export $(gnome-keyring-daemon --start)
-fi
 {% endif %}
 
 
