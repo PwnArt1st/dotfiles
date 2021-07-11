@@ -5,7 +5,7 @@ BindsTo=sway-session.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/steam-native -silent %U
+ExecStart=/usr/bin/steam -silent %U
 
 [Install]
 WantedBy=sway-session.target
