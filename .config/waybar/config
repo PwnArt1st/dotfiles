@@ -21,7 +21,6 @@
         "clock",
         "tray"
     ],
-
     "sway/workspaces": {
         "enable-bar-scroll": true
     },
@@ -33,9 +32,10 @@
         "tooltip": false
     },
     "custom/window": {
-        "exec":"$HOME/.config/waybar/window.sh",
+        "exec": "$HOME/.config/waybar/window.sh",
         "tooltip": false,
-        "exec-on-event": false
+        "exec-on-event": false,
+        "escape": true
     },
     "idle_inhibitor": {
         "format": "{icon}",
@@ -72,14 +72,28 @@
         "interval": 3,
         "exec-on-event": false,
         "return-type": "json",
-        "format": " {}°"
+        "format": "{icon} {}°",
+        "format-icons": {
+            "idle": "",
+            "default": "",
+            "good": "",
+            "info": "",
+            "warning": ""
+        }
     },
     "custom/temperature#gpu": {
         "exec": "$HOME/.config/waybar/temperature.sh /sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0/0000:02:00.0/0000:03:00.0/hwmon/*/temp1_input",
         "interval": 3,
         "exec-on-event": false,
         "return-type": "json",
-        "format": " {}°"
+        "format": "{icon} {}°",
+        "format-icons": {
+            "idle": "",
+            "default": "",
+            "good": "",
+            "info": "",
+            "warning": ""
+        }
     },
     "network": {
         "format": " {bandwidthUpOctets}  {bandwidthDownOctets}",
@@ -105,10 +119,10 @@
         }
     },
     "custom/timew": {
-        "exec":"$HOME/.config/waybar/timew.sh",
+        "exec": "$HOME/.config/waybar/timew.sh",
         "return-type": "json",
         "interval": 3,
-        "tooltip": false,
+        "tooltip": true,
         "exec-on-event": false,
         "format-icons": {
             "running": "",

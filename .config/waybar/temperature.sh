@@ -2,7 +2,7 @@
 
 input=$1
 temp_long=$(cat "$input")
-temp=$(expr "$temp_long" / 1000)
+temp=$(("$temp_long" / 1000))
 if (( temp  < 20 )); then
     class="idle"
 elif (( temp < 45)); then
@@ -14,4 +14,4 @@ elif (( temp < 80)); then
 else
     class="warning"
 fi
-printf '{"text": "%s", "class": "%s" }\n' "$temp" "$class" 
+printf '{"text": "%s", "class": "%s", "alt": "%s" }\n' "$temp" "$class" "$class"
