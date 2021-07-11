@@ -1,5 +1,5 @@
 old_dir="$PWD"
-for d in "$HOME"/.config/zsh/*/; do
+for d in "${ZSH_PLUG_DIR}"/*/; do
 	cd "$d"
 	if [ "$(git rev-parse --is-inside-work-tree 2>/dev/null)" ]; then
 		pull_status="$(git pull)"
@@ -13,7 +13,7 @@ for d in "$HOME"/.config/zsh/*/; do
 done
 
 if [ "$fzf_tab_updated" = true ]; then
-	zsh -c "source $HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh; build-fzf-tab-module"
+	zsh -c "source ${ZSH_PLUG_DIR}/fzf-tab/fzf-tab.plugin.zsh; build-fzf-tab-module"
 fi
 
 cd "$old_dir"
