@@ -3,5 +3,6 @@
 
 exec_always autotiling    
 exec gnome-keyring-daemon --start
+exec systemd-run --user --scope --unit app-foot\\x2deserver.scope -- foot --server
 exec discord-canary --start-minimized
 exec xrandr --output XWAYLAND0 --primary
