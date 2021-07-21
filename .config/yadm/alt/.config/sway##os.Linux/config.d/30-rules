@@ -50,3 +50,4 @@ for_window [class="HatinTimeGame.exe"] fullscreen enable
 for_window [title="Volume Control"] floating disable
 for_window [title="Microsoft Teams Notification" class="microsoft teams - preview"] floating enable
 for_window [title="Microsoft Teams Notification" class="Microsoft Teams - Preview"] floating enable 
+for_window [title="Firefox — Sharing Indicator"] floating enable 

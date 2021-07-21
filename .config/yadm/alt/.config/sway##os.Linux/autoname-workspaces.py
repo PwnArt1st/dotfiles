@@ -32,6 +32,7 @@ WINDOW_ICONS = {
     "thunar": "",
     "io.github.quodlibet.quodlibet": "",
     "org.qbittorrent.qbittorrent": "",
+    "obsidian": "",
 }
 
 DEFAULT_ICON = ""
@@ -74,9 +75,11 @@ def rename_workspaces(ipc):
                 while len(focus_idle.focus) > 0:
                     focus_idle = workspace.find_by_id(focus_idle.focus[0])
                 focused_name = (focus_idle.name[:15] + '..') if focus_idle.name and len(focus_idle.name) > 15 else focus_idle.name
+                if focused_name is None:
+                    focused_name = ""
                     
         name_parts["icons"] = " ".join(icon_tuple) + " "
-        name_parts["title"] = focused_name
+        name_parts["title"] = focused_name.replace("\"","'")
         new_name = construct_workspace_name(name_parts)
         ipc.command('rename workspace "%s" to "%s"' % (workspace.name, new_name))
 
