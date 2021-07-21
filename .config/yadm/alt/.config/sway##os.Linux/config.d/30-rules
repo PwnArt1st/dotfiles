@@ -1,6 +1,7 @@
 # $HOME/.config/sway/config.d/rules
 # Sway window rules
 
+for_window [app_id="dropterm"] move scratchpad
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="bubble"] floating enable
 for_window [window_role="task_dialog"] floating enable

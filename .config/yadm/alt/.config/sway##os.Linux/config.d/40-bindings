@@ -17,8 +17,7 @@ bindsym mod1+Shift+q kill
 bindsym $mod+Return exec $term
 
 # dropdown terminal
-#bindsym Control+grave exec tdrop -w 100% -h 40% -a -m $term
-bindsym Control+grave exec i3-quickterm shell
+bindsym Control+Grave exec bash $HOME/.config/sway/show-dropterm.sh
 
 # browser
 bindsym $mod+Shift+Return exec $browser
@@ -54,7 +53,6 @@ bindsym Control+Shift+Space exec makoctl dismiss -a
 bindsym Control+Shift+Grave exec makoctl restore
 bindsym Control+Shift+Period exec makoctl menu dmenu
 bindsym Control+Shift+r exed makoctl reload
-
 
 ############################################
 #
