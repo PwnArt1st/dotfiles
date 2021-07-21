@@ -1,5 +1,5 @@
 #! /bin/bash
-if [[ -z $(swaymsg -t get_tree | jq '.nodes[].nodes[].floating_nodes[] | select(.app_id == "dropterm")') ]]; then
+if [[ -z $(swaymsg -t get_tree | grep '"app_id": "dropterm"') ]]; then
 	footclient -a dropterm &
 	sleep .1
 fi
