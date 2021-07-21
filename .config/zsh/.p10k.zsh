@@ -36,6 +36,7 @@
     # os_icon               # os identifier
     dir                     # current directory
     package
+    pyenv
     virtualenv
     rbenv
     vcs                     # git status

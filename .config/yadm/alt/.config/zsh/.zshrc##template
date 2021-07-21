@@ -228,6 +228,16 @@ fi
 
 lazyload rbenv ruby rake bundle bundler gem irb -- 'eval "$(rbenv init -)"'
 
+#
+# pyenv
+#
+
+lazyload pyenv python pip python3 python2 pip3 pip2 easy_install pydoc 2to3 idle -- \
+	'export PYENV_ROOT="$HOME/.pyenv" && \
+	export PATH="$PYENV_ROOT/bin:$PATH" && eval "$(pyenv init --path)" && \
+	eval "$(pyenv init -)" && eval "$(pyenv virtualenv-init -)"'
+
+
 {% if yadm.os == "Linux" %}
 #
 # Completion rehash
